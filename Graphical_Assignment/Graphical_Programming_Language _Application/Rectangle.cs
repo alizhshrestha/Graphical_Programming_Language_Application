@@ -12,6 +12,20 @@ namespace Graphical_Programming_Language__Application
     {
 
         int height, width;
+        static int param_no = 2;
+
+
+        List<int> parameters = new List<int>();
+
+        public void setParameters(List<int> parameters)
+        {
+            this.parameters = parameters;
+        }
+
+        public List<int> getParameters()
+        {
+            return this.parameters;
+        }
 
 
         public Rectangle(int x, int y, int height, int width):base(x, y)
@@ -20,11 +34,14 @@ namespace Graphical_Programming_Language__Application
             this.width = width;
         }
 
+        public Rectangle()
+        { 
+        }
+
         public override void draw(Graphics g)
         {
             Pen p = new Pen(Color.Red);
-            g.DrawRectangle(p, 10,10, 10,10);
-
+            g.DrawRectangle(p, x,y, height,width);
         }
 
         public void setHeight(int height)

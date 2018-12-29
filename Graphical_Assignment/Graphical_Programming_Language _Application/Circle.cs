@@ -13,16 +13,37 @@ namespace Graphical_Programming_Language__Application
         
         int radius;
 
+        static int param_no = 1;
+
+        List<int> parameters = new List<int>();
+
+        public void setParameters(List<int> parameters)
+        {
+            this.parameters = parameters;
+        }
+
+        public List<int> getParameters()
+        {
+            return this.parameters;
+        }
+
+
         public Circle(int x, int y, int radius):base(x, y)
         {
             this.radius = radius; 
 
         }
 
+        public Circle()
+        {
+
+        }
+
+
         public override void draw(Graphics g)
         {
             Pen p = new Pen(Color.Red);
-            g.DrawEllipse(p, 50,50, 100, 100);
+            g.DrawEllipse(p, x,y, radius, radius);
         }
 
 

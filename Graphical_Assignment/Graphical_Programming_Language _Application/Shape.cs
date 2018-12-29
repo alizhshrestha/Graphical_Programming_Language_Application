@@ -9,12 +9,16 @@ namespace Graphical_Programming_Language__Application
 {
     abstract class Shape
     {
-        int x = 0, y = 0;
+        protected int x = 0, y = 0;
 
         public Shape(int x, int y)
         {
             this.x = x;
             this.y = y;
+        }
+
+        public Shape()
+        {
         }
 
         public void setX(int x)
