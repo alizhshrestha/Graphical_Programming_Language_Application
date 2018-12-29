@@ -15,7 +15,7 @@ namespace Graphical_Programming_Language__Application
     {
 
         Shape shape1, shape2;
-        Boolean drawCircle;
+        Boolean drawCircle, drawRect;
         String program;
         
 
@@ -56,20 +56,30 @@ namespace Graphical_Programming_Language__Application
                 String code_line = programLine[i];
                 string[] words = code_line.Split(' ');
                 //MessageBox.Show(programLine[i]);
-                MessageBox.Show(Convert.ToString(words.Length));
-                for (int j = 0; j < words.Length-1; j++)
+                MessageBox.Show("Whole words length: " + Convert.ToString(parts.Length));
+
+                
+                for (int j = 0; j < words.Length-3; j++)
                 {
-                    MessageBox.Show("Words[0]" + words[0]);
-                    MessageBox.Show("Words[1]" + words[1]);
-                    if (words[0]=="draw" && words[1]== "circle")
+
+                    String command = words[0];
+                    String obj = words[1];
+                    String variable_name = words[2];
+                    String param = words[3];
+                    MessageBox.Show("command: " + words[0] + "\r\n" + "object: " + words[1] + "\r\n" + "variable_name: " + words[2] + "\r\n" + "parameter: " + words[3]);
+                    if (words[0]=="draw")
                     {
-                        drawCircle = true;
-                        panel1.Refresh();
-                        MessageBox.Show("Draw Circle: " + Convert.ToString(drawCircle));
-                    }
-                    else
-                    {
-                        drawCircle = false;
+                        if (words[1] == "circle")
+                        {
+                            drawCircle = true;
+                            MessageBox.Show("Draw Circle: " + Convert.ToString(drawCircle));
+                        }
+
+                        if (words[1] == "rectangle")
+                        {
+                            drawRect = true;
+                            MessageBox.Show("Draw Rectangle: " + Convert.ToString(drawRect));
+                        }
                         panel1.Refresh();
                     }
                 }
@@ -84,6 +94,11 @@ namespace Graphical_Programming_Language__Application
             if (drawCircle==true)
             {
                 shape1.draw(g);
+            }
+
+            if (drawRect == true)
+            {
+                shape2.draw(g);
             }
             
         }
