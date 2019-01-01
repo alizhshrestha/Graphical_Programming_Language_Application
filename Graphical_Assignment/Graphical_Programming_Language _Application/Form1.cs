@@ -13,13 +13,12 @@ namespace Graphical_Programming_Language__Application
 {
     public partial class Form1 : Form
     {
-        //Declaration
-        Shape shape1, shape2;
-        Boolean drawCircle, drawRect, movePointer;
-        String program;
-        String[] words;
-        List<int> circleParameterList, rectangleParameterList;
-        int moveX, moveY;
+        Shape shape1, shape2; //declaration of shapeFactory
+        Boolean drawCircle, drawRect, movePointer; //boolean to check whether to make objects or not
+        String program; //string to hold textarea info
+        String[] words; //words of the individual program line
+        List<int> circleParameterList, rectangleParameterList; //Parameter list of objects
+        int moveX, moveY; //cursor moving direction points
 
 
         /// <summary>
@@ -28,6 +27,7 @@ namespace Graphical_Programming_Language__Application
         public Form1()
         {
             InitializeComponent();
+
             //Shape creation and initialization
             AbstractFactory shapeFactory = FactoryProducer.getFactory("Shape");
             shape1 = shapeFactory.getShape("Circle");
@@ -41,8 +41,9 @@ namespace Graphical_Programming_Language__Application
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-
+            //List to hold parameter info
+            circleParameterList = new List<int>();
+            rectangleParameterList = new List<int>();
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace Graphical_Programming_Language__Application
                 // ... Break lines into separate strings.
                 // ... Use RemoveEntryEntries so empty strings are not added.
                 char[] delimiters = new char[] { '\r', '\n' };
-                string[] parts = program.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                string[] parts = program.Split(delimiters, StringSplitOptions.RemoveEmptyEntries); //holds invididuals code line
 
                 //loop through the whole program code line
                 for (int i = 0; i < parts.Length; i++)
@@ -74,7 +75,7 @@ namespace Graphical_Programming_Language__Application
                     //single code line
                     String code_line = parts[i];
 
-                    //words of the code line
+                    //individual words of the code line
                     words = code_line.Split(' ');
 
 
@@ -112,48 +113,66 @@ namespace Graphical_Programming_Language__Application
                     //MessageBox.Show("command: " + code_attributes.getCommand() + "\r\n" + "object: " + code_attributes.getObj() + "\r\n" + "variable_name: " + code_attributes.getVariableName() + "\r\n" + "parameter: " + " "
                     //    );
 
+                    //condition to check if "draw" then
                     if (words[0] == "draw")
                     {
-                        if (words[1] == "circle")
+                        if (words[1] == "circle") // condition to check if "circle" then
                         {
-
-                            //List to hold parameter info
-                            circleParameterList = new List<int>();
-
-
-
-                            //for storing parameters value in int array
-                            for (int j = 3; j < words.Length; j++)
-                            {
-                                int parameter = Convert.ToInt32(words[j]);
-
-                                //MessageBox.Show("Parameter " + j.ToString() + parameter.ToString());
-                                if (circleParameterList.Count == 0)
-                                {
-                                    MessageBox.Show("circle parameter empty........ adding");
-                                    circleParameterList.Add(parameter);
-
-                                }
-                                else
-                                {
-                                    MessageBox.Show("circle parameter clearing");
-                                    circleParameterList.Clear();
-                                }
-                                
-                                
-                            }
 
                             
 
-                            if (words.Length>4)
+                            if (words.Length>4) //extending parameter values
                             {
                                 MessageBox.Show("can't draw");
                             }
                             else
                             {
-                                drawCircle = true;
+                                //for storing parameters value in int array
+                                for (int j = 3; j < words.Length; j++)
+                                {
+                                    int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
+
+                                    //MessageBox.Show("Parameter " + j.ToString() + parameter.ToString());
+
+                                    if ((circleParameterList.Count < 2) || circleParameterList == null)
+                                    {
+                                        MessageBox.Show("rectangle parameter empty........ adding");
+                                        circleParameterList.Add(parameter); //initially added to parameter list
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Parameter passed exceeds its limitation");
+                                    }
+
+
+                                    if (circleParameterList.ElementAt(j - 3) == parameter)
+                                    {
+                                        MessageBox.Show("Parameter no: " + "  " + "same parameter passed");
+                                    }
+                                    else
+                                    {
+                                        //cleared parameter list to renew value
+                                        /*
+                                        circleParameterList.RemoveAt(j - 3);
+
+                                        foreach (int parameterLists in circleParameterList)
+                                        {
+                                            MessageBox.Show("Parameter no: " + (j-3)+"  " + parameterLists.ToString());
+                                        }
+
+                                        MessageBox.Show("replacing circle parameter");
+                                        circleParameterList.Add(parameter); //parameter added to circleParameterList
+                                        */
+
+                                        int value = circleParameterList[circleParameterList.FindIndex(ind => ind.Equals(circleParameterList.ElementAt(j - 3)))] = parameter;
+
+                                        MessageBox.Show("Replace Element be like: " + value.ToString());
+                                    }
+                                }
+
+                                drawCircle = true; //draw circle
                                 MessageBox.Show("Draw Circle: " + Convert.ToString(drawCircle));
-                                panel1.Refresh();
+                                panel1.Refresh(); //refresh with every drawing equals to true
                                 //rectangleParameterList.Clear();
 
                                 //circleParameterList.Clear();
@@ -164,39 +183,59 @@ namespace Graphical_Programming_Language__Application
 
                         }
 
-                        if (words[1] == "rectangle")
+                        if (words[1] == "rectangle") //if words is to draw rectangle
                         {
-                            
-                            //List to hold parameter info
-                            rectangleParameterList = new List<int>();
-                           
 
-
-                            //for storing parameters value in int array
-                            for (int j = 3; j < words.Length; j++)
-                            {
-                                int parameter = Convert.ToInt32(words[j]);
-
-                                //MessageBox.Show("Parameter " + j.ToString() + parameter.ToString());
-                                
-
-                                MessageBox.Show("rectangle parameter empty........ adding");
-                                 rectangleParameterList.Add(parameter);
-                                MessageBox.Show("Rectangle parameter list be like: " + rectangleParameterList.ElementAt(j-3));
-
-                            }
-
-
-                            if (words.Length > 5)
+                            if (words.Length > 5) //checks if parameter value exceeds required parameter values
                             {
                                 MessageBox.Show("can't draw");
                             }
                             else
                             {
-                                drawRect = true;
-                                MessageBox.Show("Draw Rectangle: " + Convert.ToString(drawRect));
-                                panel1.Refresh();
+                                //List to hold parameter info
 
+
+                                //for storing parameters value in int array
+                                for (int j = 3; j < words.Length; j++)
+                                {
+                                    int parameter = Convert.ToInt32(words[j]); //parameter converted to int value
+
+                                    MessageBox.Show("Parameter " + j.ToString() + parameter.ToString());
+
+                                    if ((rectangleParameterList.Count<2) || rectangleParameterList==null)
+                                    {
+                                        MessageBox.Show("rectangle parameter empty........ adding");
+                                        rectangleParameterList.Add(parameter); //initially added to parameter list
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Parameter passed exceeds its limitation");
+                                    }
+                                    
+
+                                    MessageBox.Show("rectangle list count be like "+ rectangleParameterList.Count);
+
+
+                                    if (rectangleParameterList.ElementAt(j - 3) == parameter) //if previous value of parameter list matched recent value
+                                    {
+                                        MessageBox.Show("same parameter passed");
+                                    }
+                                    else
+                                    {
+                                        int value = rectangleParameterList[rectangleParameterList.FindIndex(ind => ind.Equals(rectangleParameterList.ElementAt(j - 3)))] = parameter;
+
+                                        MessageBox.Show("Replace Element be like: " + value.ToString());
+                                    }
+
+
+                                    //MessageBox.Show("Rectangle parameter list be like: " + (j-3) + rectangleParameterList.ElementAt(j-3));
+
+                                }
+
+
+                                drawRect = true; //draw rectangle
+                                MessageBox.Show("Draw Rectangle: " + Convert.ToString(drawRect));
+                                panel1.Refresh(); //refresh panel1
                                 //rectangleParameterList.Clear();
                             }
                         }
@@ -204,20 +243,22 @@ namespace Graphical_Programming_Language__Application
                         
                     }
 
-                    if (words[0]=="move")
+                    if (words[0]=="move") //condition if to move cursor
                     {
 
-                        moveX = Convert.ToInt32(words[1]);
-                        moveY = Convert.ToInt32(words[2]);
+                        moveX = Convert.ToInt32(words[1]); //move in x direction
+                        moveY = Convert.ToInt32(words[2]); //move in y direction
 
-                        if (words.Length>3)
+
+                        if (words.Length>3) //if parameter exceeds required parameter values
                         {
                             MessageBox.Show("Please enter correrct parameters");
                         }
                         else
                         {
-                            movePointer = true;
-                            panel1.Refresh();
+                            MessageBox.Show("Moving...");
+                            movePointer = true; //move pointer
+                            panel1.Refresh(); //refresh panel
                         }
                         
                     }
@@ -242,14 +283,18 @@ namespace Graphical_Programming_Language__Application
         /// <param name="e"></param>
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            
+            //Graphics to draw in panel
             Graphics g = e.Graphics;
+
             //MessageBox.Show("Painting...");
-            if (drawCircle==true)
+
+
+            if (drawCircle==true)//draw circle condition
             {
-                Circle c = new Circle();
+                Circle c = new Circle(); //creates new circle
                 //c.setRadius(parameterList[0]);
-                c.setRadius(Convert.ToInt32(circleParameterList[0]));
+
+                c.setRadius(Convert.ToInt32(circleParameterList[0])); //sets radius of the circle
                 /*
                  * parameterList.Clear();
 
@@ -259,22 +304,23 @@ namespace Graphical_Programming_Language__Application
                 }
                 */
 
-                c.setX(200);
-                c.setY(200);
+                c.setX(moveX); //sets x position
+                c.setY(moveY); //sets y position
                 //MessageBox.Show("Radius is: " + parameterList[0].ToString());
-                c.draw(g);
+
+                c.draw(g); //draw circle with given graphics
             }
 
-            if (drawRect == true)
+            if (drawRect == true) //draw rectangle condition
             {
-                Rectangle rect = new Rectangle();
-                rect.setX(100);
-                rect.setY(100);
+                Rectangle rect = new Rectangle();  //creates new rectangle
+                rect.setX(moveX); //sets x position
+                rect.setY(moveY); //sets y position
                 //rect.setWidth(parameterList[0]);
                 //rect.setHeight(parameterList[1]);
                 //MessageBox.Show("Rectangle param1: " + words[3]+ "Rectangle param2: " + words[4]);
-                rect.setWidth(Convert.ToInt32(rectangleParameterList[0]));
-                rect.setHeight(Convert.ToInt32(rectangleParameterList[1]));
+                rect.setWidth(Convert.ToInt32(rectangleParameterList[0])); //sets width
+                rect.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
 
                 /*
                  * parameterList.Clear();
@@ -287,12 +333,13 @@ namespace Graphical_Programming_Language__Application
 
                 //MessageBox.Show("Width is: " + parameterList[0].ToString());
                 //MessageBox.Show("Height is: " + parameterList[0].ToString());
-                rect.draw(g);
+                rect.draw(g); //draw circle with given graphics
             }
-            if (movePointer==true)
+
+            if (movePointer==true) //condition to move pointer
             {
-                Point point = new Point(moveX,moveY);
-                pictureBox1.Location = point;
+                Point point = new Point(moveX,moveY); //creates new point direction
+                pictureBox1.Location = point; //draws cursor to given point in panel
             }
             
         }

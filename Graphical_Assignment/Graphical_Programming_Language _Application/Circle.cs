@@ -39,6 +39,11 @@ namespace Graphical_Programming_Language__Application
 
         }
 
+        public Circle(int x, int y) : base(x, y)
+        {
+
+        }
+
 
         public override void draw(Graphics g)
         {
