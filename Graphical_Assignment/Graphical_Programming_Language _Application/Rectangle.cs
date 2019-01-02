@@ -34,6 +34,11 @@ namespace Graphical_Programming_Language__Application
             this.width = width;
         }
 
+        public Rectangle(int x, int y) : base(x, y)
+        {
+
+        }
+
         public Rectangle()
         { 
         }
