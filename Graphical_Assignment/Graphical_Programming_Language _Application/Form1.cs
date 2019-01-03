@@ -14,15 +14,18 @@ namespace Graphical_Programming_Language__Application
     public partial class Form1 : Form
     {
         Shape shape1, shape2; //declaration of shapeFactory
-        List<Circle> circleObjects;
-        List<Rectangle> rectangleObjects;
-        Circle circle;
-        Rectangle rectangle;
+        List<Circle> circleObjects; //list to hold circle objects
+        List<Rectangle> rectangleObjects; //list to hold rectangle objects
+        List<Line> lineObjects;
+        Circle circle; //declaration of circle
+        Rectangle rectangle; //declaration of rectangle
+        Line line;
         Boolean drawCircle, drawRect, movePointer; //boolean to check whether to make objects or not
         String program; //string to hold textarea info
         String[] words; //words of the individual program line
-        List<int> circleParameterList, rectangleParameterList, moveParameterList; //Parameter list of objects
+        List<int> circleParameterList, rectangleParameterList, moveParameterList, drawToParameterList; //Parameter list of objects
         int moveX, moveY; //cursor moving direction points
+        private bool drawToLine;
 
 
         /// <summary>
@@ -36,6 +39,7 @@ namespace Graphical_Programming_Language__Application
             AbstractFactory shapeFactory = FactoryProducer.getFactory("Shape");
             shape1 = shapeFactory.getShape("Circle");
             shape2 = shapeFactory.getShape("Rectangle");
+            
         }
 
         /// <summary>
@@ -45,14 +49,18 @@ namespace Graphical_Programming_Language__Application
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            circle = new Circle();
-            rectangle = new Rectangle();
-            circleObjects = new List<Circle>();
-            rectangleObjects = new List<Rectangle>();
+            circle = new Circle(); //creates new circle
+            rectangle = new Rectangle(); //creates new rectangle
+            line = new Line();
+            circleObjects = new List<Circle>(); //creates array of new circle objects
+            rectangleObjects = new List<Rectangle>(); //creates array of new rectangle objects
+            lineObjects = new List<Line>();
+            
             //List to hold parameter info
             circleParameterList = new List<int>();
             rectangleParameterList = new List<int>();
             moveParameterList = new List<int>();
+            drawToParameterList = new List<int>();
         }
 
         /// <summary>
@@ -93,10 +101,7 @@ namespace Graphical_Programming_Language__Application
                     {
                         if (words[1] == "circle") // condition to check if "circle" then
                         {
-
-                            
-
-                            if (words.Length>4) //extending parameter values
+                            if (!(words.Length==4)) //extending parameter values
                             {
                                 MessageBox.Show("can't draw");
                             }
@@ -238,6 +243,7 @@ namespace Graphical_Programming_Language__Application
                         moveX = Convert.ToInt32(words[1]); //move in x direction
                         moveY = Convert.ToInt32(words[2]); //move in y direction
 
+                        MessageBox.Show("moveX: " + moveX + "moveY: " + moveY);
 
                         if (words.Length>3) //if parameter exceeds required parameter values
                         {
@@ -262,13 +268,11 @@ namespace Graphical_Programming_Language__Application
 
                                 if (moveParameterList.ElementAt(j - 1) == parameter) //if previous value of parameter list matched recent value
                                 {
-                                    movePointer = false;
                                     MessageBox.Show("same parameter passed index: " + (j - 1));
                                     MessageBox.Show("draw pointer: " + movePointer);
                                 }
                                 else
                                 {
-                                    movePointer = true;
                                     MessageBox.Show("same parameter passed index: " + (j - 1));
                                     MessageBox.Show("draw pointer: " + movePointer);
                                     int value = moveParameterList[moveParameterList.FindIndex(ind => ind.Equals(moveParameterList.ElementAt(j - 1)))] = parameter;
@@ -278,12 +282,81 @@ namespace Graphical_Programming_Language__Application
 
                             }
 
+                            if (pictureBox1.Location.X==moveParameterList[0] && pictureBox1.Location.Y == moveParameterList[1])
+                            {
+                                movePointer = false; //move pointer
+                            }
+                            else
+                            {
+                                movePointer = true; //move pointer
+                                drawToLine = false;
+                            }
+
 
                             //MessageBox.Show("Moving...");
-                            movePointer = true; //move pointer
+                            
+                            //drawToLine = false;
                             panel1.Refresh(); //refresh panel
                         }
                         
+                    }
+
+                    if (words[0] == "drawTo")
+                    {
+                        if (words.Length > 3 || words.Length < 3) //checks if parameter value exceeds required parameter values
+                        {
+                            MessageBox.Show("can't draw");
+                        }
+                        else
+                        {
+
+                            //for storing parameters value in int array
+                            for (int j = 1; j < words.Length; j++)
+                            {
+                                int parameter = Convert.ToInt32(words[j]); //parameter converted to int value
+
+                                //MessageBox.Show("Parameter " + j.ToString() + parameter.ToString());
+
+                                if ((drawToParameterList.Count < 2) || drawToParameterList == null)
+                                {
+                                    //MessageBox.Show("rectangle parameter empty........ adding");
+                                    drawToParameterList.Add(parameter); //initially added to parameter list
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Parameter passed exceeds its limitation");
+                                }
+
+
+                                //MessageBox.Show("rectangle list count be like "+ rectangleParameterList.Count);
+
+
+                                if (drawToParameterList.ElementAt(j - 1) == parameter) //if previous value of parameter list matched recent value
+                                {
+                                    MessageBox.Show("same parameter passed");
+                                }
+                                else
+                                {
+                                    int value = drawToParameterList[drawToParameterList.FindIndex(ind => ind.Equals(drawToParameterList.ElementAt(j - 1)))] = parameter;
+
+                                    //MessageBox.Show("Replace Element be like: " + value.ToString());
+                                }
+
+                            }
+
+                            drawToLine = true;
+                            line = new Line();
+                            line.setX1(pictureBox1.Location.X);
+                            line.setY1(pictureBox1.Location.Y);
+                            line.setX2(Convert.ToInt32(drawToParameterList[0]));
+                            line.setY2(Convert.ToInt32(drawToParameterList[1]));
+                            lineObjects.Add(line);
+                            movePointer = true;
+                            moveX = line.getX2();
+                            moveY = line.getY2();
+
+                            panel1.Refresh(); //refresh panel1
+                        }
                     }
 
                 }
@@ -292,15 +365,15 @@ namespace Graphical_Programming_Language__Application
             {
                 MessageBox.Show("!!Please input correct code or syntax!!");
             }
-            catch (FormatException ex)
-            {
-                MessageBox.Show("!!Please input correct parameter!!");
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                MessageBox.Show("!!Please input correct parameter!!");
+            //catch (FormatException ex)
+            //{
+            //    MessageBox.Show("!!Please input correct parameter!!");
+            //}
+            //catch (ArgumentOutOfRangeException ex)
+            //{
+            //    MessageBox.Show("!!Please input correct parameter!!");
 
-            }
+            //}
 
         }
 
@@ -337,15 +410,37 @@ namespace Graphical_Programming_Language__Application
                     rectangleObject.draw(g); //draw circle with given graphics
                 }
 
-                rectangle.draw(g); //draw circle with given graphics
+                //rectangle.draw(g); //draw circle with given graphics
+            }
+
+            if (drawToLine == true) //draw rectangle condition
+            {
+                foreach (Line lineObject in lineObjects)
+                {
+                    lineObject.draw(g); //draw circle with given graphics
+                }
+
+                //line.draw(g); //draw circle with given graphics
             }
 
             if (movePointer==true) //condition to move pointer
             {
+                Point point;
+                if (drawToLine == true)
+                {
+                    point = new Point(line.getX2(), line.getY2()); //creates new point direction
+                    pictureBox1.Location = point; //draws cursor to given point in panel
+                }
+                else
+                {
+                    point = new Point(moveX, moveY); //creates new point direction
+                    pictureBox1.Location = point; //draws cursor to given point in panel
+                    foreach (Line lineObject in lineObjects)
+                    {
+                        lineObject.draw(g); //draw circle with given graphics
+                    }
+                }
                 
-
-                Point point = new Point(moveX,moveY); //creates new point direction
-                pictureBox1.Location = point; //draws cursor to given point in panel
                 //circle.setX(point.X);
                 //MessageBox.Show(circle.getX().ToString());
                 //circle.setY(point.Y);
