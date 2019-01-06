@@ -95,13 +95,12 @@ namespace Graphical_Programming_Language__Application
                     //individual words of the code line
                     words = code_line.Split(' ');
 
-
                     //condition to check if "draw" then
                     if (words[0] == "draw")
                     {
                         if (words[1] == "circle") // condition to check if "circle" then
                         {
-                            if (!(words.Length==4)) //extending parameter values
+                            if (!(words.Length == 4)) //extending parameter values
                             {
                                 MessageBox.Show("can't draw");
                             }
@@ -111,254 +110,49 @@ namespace Graphical_Programming_Language__Application
                                 for (int j = 3; j < words.Length; j++)
                                 {
                                     int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
-
-                                    if ((circleParameterList.Count < 2) || circleParameterList == null)
+                                    Boolean doDraw;
+                                    doDraw = DrawController.checkParameterListVacancy(circleParameterList, parameter, 1, j, 3);
+                                    MessageBox.Show(doDraw.ToString());
+                                    if (doDraw == true && circleParameterList.Count == 1)
                                     {
-                                        //MessageBox.Show("rectangle parameter empty........ adding");
-                                        circleParameterList.Add(parameter); //initially added to parameter list
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("Parameter passed exceeds its limitation");
-                                    }
-
-
-                                    if (circleParameterList.ElementAt(j - 3) == parameter)
-                                    {
-                                        MessageBox.Show("same parameter passed");
-                                    }
-                                    else
-                                    {
-                                        int value = circleParameterList[circleParameterList.FindIndex(ind => ind.Equals(circleParameterList.ElementAt(j - 3)))] = parameter;
-
-                                        MessageBox.Show("Replace Element be like: " + value.ToString());
+                                        drawCircle = true; //draw circle
+                                        circle = new Circle(moveX, moveY);
+                                        circle.setRadius(Convert.ToInt32(circleParameterList[0])); //sets radius of the circle
+                                        circleObjects.Add(circle);
                                     }
                                 }
-                                MessageBox.Show("MoveX: " + moveX + "MoveY: " + moveY);
-                                MessageBox.Show("Before drawing circle draw pointer is: " + movePointer);
-                                if (movePointer == true || (moveX==0 && moveY==0))
-                                {
-                                    MessageBox.Show("Draw Circle: " + Convert.ToString(drawCircle));
-                                    drawCircle = true; //draw circle
-                                    circle = new Circle(moveX, moveY);
-                                    circle.setRadius(Convert.ToInt32(circleParameterList[0])); //sets radius of the circle
-                                    circleObjects.Add(circle);
-                                }
-                                else
-                                {
-                                    drawCircle = false;
-                                    MessageBox.Show("No need to draw new circle!!");
-                                }
-
-                                
-                                panel1.Refresh(); //refresh with every drawing equals to true
-                                //rectangleParameterList.Clear();
-
-                                //circleParameterList.Clear();
                             }
-
                         }
 
-                        if (words[1] == "rectangle") //if words is to draw rectangle
-                        {
 
-                            if (words.Length > 5 || words.Length <5) //checks if parameter value exceeds required parameter values
+                        if (words[1] == "rectangle") // condition to check if "circle" then
+                        {
+                            if (!(words.Length == 5)) //extending parameter values
                             {
                                 MessageBox.Show("can't draw");
                             }
                             else
                             {
-                                
                                 //for storing parameters value in int array
                                 for (int j = 3; j < words.Length; j++)
                                 {
-                                    int parameter = Convert.ToInt32(words[j]); //parameter converted to int value
-
-                                    //MessageBox.Show("Parameter " + j.ToString() + parameter.ToString());
-
-                                    if ((rectangleParameterList.Count<2) || rectangleParameterList==null)
+                                    int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
+                                    Boolean doDraw;
+                                    doDraw = DrawController.checkParameterListVacancy(rectangleParameterList, parameter, 2, j, 3);
+                                    MessageBox.Show(doDraw.ToString());
+                                    if (doDraw == true && rectangleParameterList.Count==2)
                                     {
-                                        //MessageBox.Show("rectangle parameter empty........ adding");
-                                        rectangleParameterList.Add(parameter); //initially added to parameter list
+                                        drawRect = true; //draw circle
+                                        rectangle = new Rectangle(moveX, moveY);
+                                        //rectangle = new Rectangle();  //creates new rectangle
+                                        rectangle.setWidth(Convert.ToInt32(rectangleParameterList[0])); //sets width
+                                        rectangle.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
+                                        rectangleObjects.Add(rectangle);
                                     }
-                                    else
-                                    {
-                                        MessageBox.Show("Parameter passed exceeds its limitation");
-                                    }
-                                    
-
-                                    //MessageBox.Show("rectangle list count be like "+ rectangleParameterList.Count);
-
-
-                                    if (rectangleParameterList.ElementAt(j - 3) == parameter) //if previous value of parameter list matched recent value
-                                    {
-                                        MessageBox.Show("same parameter passed");
-                                    }
-                                    else
-                                    {
-                                        int value = rectangleParameterList[rectangleParameterList.FindIndex(ind => ind.Equals(rectangleParameterList.ElementAt(j - 3)))] = parameter;
-
-                                        //MessageBox.Show("Replace Element be like: " + value.ToString());
-                                    }
-
                                 }
-
-                                
-                                if (movePointer == true)
-                                {
-                                    drawRect = true; //draw rectangle
-                                    MessageBox.Show("Draw Rectangle: " + Convert.ToString(drawRect));
-                                    rectangle = new Rectangle(moveX, moveY);
-                                    //rectangle = new Rectangle();  //creates new rectangle
-                                    rectangle.setWidth(Convert.ToInt32(rectangleParameterList[0])); //sets width
-                                    rectangle.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
-                                    rectangleObjects.Add(rectangle);
-                                }
-                                else if ((moveX == 0 && moveY == 0) && movePointer == false)
-                                {
-                                    drawRect = true; //draw rectangle
-                                    MessageBox.Show("Draw Rectangle: " + Convert.ToString(drawRect));
-                                    rectangle = new Rectangle();
-                                    //rectangle = new Rectangle();  //creates new rectangle
-                                    rectangle.setWidth(Convert.ToInt32(rectangleParameterList[0])); //sets width
-                                    rectangle.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
-                                    rectangleObjects.Add(rectangle);
-                                }
-                                else
-                                {
-                                    drawRect = false;
-                                    MessageBox.Show("No need to draw new rectangle!!");
-                                }
-
-                                panel1.Refresh(); //refresh panel1
                             }
-                        }
-                        
-                        
-                    }
-
-                    if (words[0]=="move") //condition if to move cursor
-                    {
-
-                        moveX = Convert.ToInt32(words[1]); //move in x direction
-                        moveY = Convert.ToInt32(words[2]); //move in y direction
-
-                        MessageBox.Show("moveX: " + moveX + "moveY: " + moveY);
-
-                        if (words.Length>3) //if parameter exceeds required parameter values
-                        {
-                            MessageBox.Show("Please enter correrct parameters");
-                        }
-                        else
-                        {
-                            //for storing parameters value in int array
-                            for (int j = 1; j < words.Length; j++)
-                            {
-                                int parameter = Convert.ToInt32(words[j]); //parameter converted to int value
-
-
-                                if ((moveParameterList.Count < 2) || moveParameterList == null)
-                                {
-                                    moveParameterList.Add(parameter); //initially added to parameter list
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Parameter passed exceeds its limitation");
-                                }
-
-                                if (moveParameterList.ElementAt(j - 1) == parameter) //if previous value of parameter list matched recent value
-                                {
-                                    MessageBox.Show("same parameter passed index: " + (j - 1));
-                                    MessageBox.Show("draw pointer: " + movePointer);
-                                }
-                                else
-                                {
-                                    MessageBox.Show("same parameter passed index: " + (j - 1));
-                                    MessageBox.Show("draw pointer: " + movePointer);
-                                    int value = moveParameterList[moveParameterList.FindIndex(ind => ind.Equals(moveParameterList.ElementAt(j - 1)))] = parameter;
-
-                                    //MessageBox.Show("Replace Element be like: " + value.ToString());
-                                }
-
-                            }
-
-                            if (pictureBox1.Location.X==moveParameterList[0] && pictureBox1.Location.Y == moveParameterList[1])
-                            {
-                                movePointer = false; //move pointer
-                            }
-                            else
-                            {
-                                movePointer = true; //move pointer
-                                drawToLine = false;
-                            }
-
-
-                            //MessageBox.Show("Moving...");
-                            
-                            //drawToLine = false;
-                            panel1.Refresh(); //refresh panel
-                        }
-                        
-                    }
-
-                    if (words[0] == "drawTo")
-                    {
-                        if (words.Length > 3 || words.Length < 3) //checks if parameter value exceeds required parameter values
-                        {
-                            MessageBox.Show("can't draw");
-                        }
-                        else
-                        {
-
-                            //for storing parameters value in int array
-                            for (int j = 1; j < words.Length; j++)
-                            {
-                                int parameter = Convert.ToInt32(words[j]); //parameter converted to int value
-
-                                //MessageBox.Show("Parameter " + j.ToString() + parameter.ToString());
-
-                                if ((drawToParameterList.Count < 2) || drawToParameterList == null)
-                                {
-                                    //MessageBox.Show("rectangle parameter empty........ adding");
-                                    drawToParameterList.Add(parameter); //initially added to parameter list
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Parameter passed exceeds its limitation");
-                                }
-
-
-                                //MessageBox.Show("rectangle list count be like "+ rectangleParameterList.Count);
-
-
-                                if (drawToParameterList.ElementAt(j - 1) == parameter) //if previous value of parameter list matched recent value
-                                {
-                                    MessageBox.Show("same parameter passed");
-                                }
-                                else
-                                {
-                                    int value = drawToParameterList[drawToParameterList.FindIndex(ind => ind.Equals(drawToParameterList.ElementAt(j - 1)))] = parameter;
-
-                                    //MessageBox.Show("Replace Element be like: " + value.ToString());
-                                }
-
-                            }
-
-                            drawToLine = true;
-                            line = new Line();
-                            line.setX1(pictureBox1.Location.X);
-                            line.setY1(pictureBox1.Location.Y);
-                            line.setX2(Convert.ToInt32(drawToParameterList[0]));
-                            line.setY2(Convert.ToInt32(drawToParameterList[1]));
-                            lineObjects.Add(line);
-                            movePointer = true;
-                            moveX = line.getX2();
-                            moveY = line.getY2();
-
-                            panel1.Refresh(); //refresh panel1
                         }
                     }
-
                 }
             }
             catch (IndexOutOfRangeException ex)
@@ -375,6 +169,8 @@ namespace Graphical_Programming_Language__Application
 
             //}
 
+            panel1.Refresh(); //refresh with every drawing equals to true
+
         }
 
         /// <summary>
@@ -387,70 +183,25 @@ namespace Graphical_Programming_Language__Application
             //Graphics to draw in panel
             Graphics g = e.Graphics;
 
-
-            if (drawCircle==true)//draw circle condition
+            if (drawCircle == true)//draw circle condition
             {
                 foreach (Circle circleObject in circleObjects)
                 {
+                    MessageBox.Show("Drawing Circle");
                     circleObject.draw(g); //draw circle with given graphics
                 }
-
-                //circle.setX(circle.getX()); //sets x position
-                //circle.setY(circle.getY()); //sets y position
-
-
-
-                //shapeObjects.draw(g); //draw circle with given graphics
             }
 
             if (drawRect == true) //draw rectangle condition
             {
                 foreach (Rectangle rectangleObject in rectangleObjects)
                 {
+                    MessageBox.Show("Drawing Rectangle");
                     rectangleObject.draw(g); //draw circle with given graphics
                 }
 
                 //rectangle.draw(g); //draw circle with given graphics
             }
-
-            if (drawToLine == true) //draw rectangle condition
-            {
-                foreach (Line lineObject in lineObjects)
-                {
-                    lineObject.draw(g); //draw circle with given graphics
-                }
-
-                //line.draw(g); //draw circle with given graphics
-            }
-
-            if (movePointer==true) //condition to move pointer
-            {
-                Point point;
-                if (drawToLine == true)
-                {
-                    point = new Point(line.getX2(), line.getY2()); //creates new point direction
-                    pictureBox1.Location = point; //draws cursor to given point in panel
-                }
-                else
-                {
-                    point = new Point(moveX, moveY); //creates new point direction
-                    pictureBox1.Location = point; //draws cursor to given point in panel
-                    foreach (Line lineObject in lineObjects)
-                    {
-                        lineObject.draw(g); //draw circle with given graphics
-                    }
-                }
-                
-                //circle.setX(point.X);
-                //MessageBox.Show(circle.getX().ToString());
-                //circle.setY(point.Y);
-                //-MessageBox.Show(circle.getY().ToString());
-                //rectangle.setX(point.X);
-                //MessageBox.Show(rectangle.getX().ToString());
-                //rectangle.setY(point.Y);
-                //MessageBox.Show(rectangle.getY().ToString());
-            }
-            
         }
     }
 }
