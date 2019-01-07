@@ -27,6 +27,8 @@ namespace Graphical_Programming_Language__Application
         int moveX, moveY; //cursor moving direction points
         private bool drawToLine;
 
+        Point point; //defines points in panel
+
 
         /// <summary>
         /// Constructor
@@ -55,6 +57,7 @@ namespace Graphical_Programming_Language__Application
             circleObjects = new List<Circle>(); //creates array of new circle objects
             rectangleObjects = new List<Rectangle>(); //creates array of new rectangle objects
             lineObjects = new List<Line>();
+            
             
             //List to hold parameter info
             circleParameterList = new List<int>();
@@ -111,14 +114,27 @@ namespace Graphical_Programming_Language__Application
                                 {
                                     int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
                                     Boolean doDraw;
-                                    doDraw = DrawController.checkParameterListVacancy(circleParameterList, parameter, 1, j, 3);
+                                    doDraw = DrawController.checkParameterListVacancy(circleParameterList, parameter, 1, j, 3, movePointer);
                                     MessageBox.Show(doDraw.ToString());
-                                    if (doDraw == true && circleParameterList.Count == 1)
+                                    if (movePointer == true)
                                     {
-                                        drawCircle = true; //draw circle
-                                        circle = new Circle(moveX, moveY);
-                                        circle.setRadius(Convert.ToInt32(circleParameterList[0])); //sets radius of the circle
-                                        circleObjects.Add(circle);
+                                        if (doDraw == true && circleParameterList.Count == 1)
+                                        {
+                                            drawCircle = true; //draw circle
+                                            circle = new Circle(moveX, moveY);
+                                            circle.setRadius(Convert.ToInt32(circleParameterList[0])); //sets radius of the circle
+                                            circleObjects.Add(circle);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (doDraw == true && circleParameterList.Count == 1)
+                                        {
+                                            drawCircle = true; //draw circle
+                                            circle = new Circle();
+                                            circle.setRadius(Convert.ToInt32(circleParameterList[0])); //sets radius of the circle
+                                            circleObjects.Add(circle);
+                                        }
                                     }
                                 }
                             }
@@ -138,22 +154,80 @@ namespace Graphical_Programming_Language__Application
                                 {
                                     int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
                                     Boolean doDraw;
-                                    doDraw = DrawController.checkParameterListVacancy(rectangleParameterList, parameter, 2, j, 3);
+                                    doDraw = DrawController.checkParameterListVacancy(rectangleParameterList, parameter, 2, j, 3, movePointer);
                                     MessageBox.Show(doDraw.ToString());
-                                    if (doDraw == true && rectangleParameterList.Count==2)
+
+                                    if (movePointer == true)
                                     {
-                                        drawRect = true; //draw circle
-                                        rectangle = new Rectangle(moveX, moveY);
-                                        //rectangle = new Rectangle();  //creates new rectangle
-                                        rectangle.setWidth(Convert.ToInt32(rectangleParameterList[0])); //sets width
-                                        rectangle.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
-                                        rectangleObjects.Add(rectangle);
+                                        if (doDraw == true && rectangleParameterList.Count == 2)
+                                        {
+                                            drawRect = true; //draw circle
+                                            rectangle = new Rectangle(moveX, moveY);
+                                            //rectangle = new Rectangle();  //creates new rectangle
+                                            rectangle.setWidth(Convert.ToInt32(rectangleParameterList[0])); //sets width
+                                            rectangle.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
+                                            rectangleObjects.Add(rectangle);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (doDraw == true && rectangleParameterList.Count == 2)
+                                        {
+                                            drawRect = true; //draw circle
+                                            rectangle = new Rectangle();
+                                            //rectangle = new Rectangle();  //creates new rectangle
+                                            rectangle.setWidth(Convert.ToInt32(rectangleParameterList[0])); //sets width
+                                            rectangle.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
+                                            rectangleObjects.Add(rectangle);
+                                        }
+
+
                                     }
                                 }
                             }
                         }
                     }
+
+                    if (words[0] == "move") // condition to check if "circle" then
+                    {
+                        moveX = Convert.ToInt32(words[1]); //move in x direction
+                        moveY = Convert.ToInt32(words[2]); //move in y direction
+
+                        if (!(words.Length == 3)) //extending parameter values
+                        {
+                            MessageBox.Show("can't draw");
+                        }
+                        else
+                        {
+                            //for storing parameters value in int array
+                            for (int j = 1; j < words.Length; j++)
+                            {
+                                int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
+                                Boolean doDraw;
+                                doDraw = DrawController.checkParameterListVacancy(moveParameterList, parameter, 2, j, 1, movePointer);
+                                if (doDraw == true && moveParameterList.Count == 2)
+                                {
+                                    if (pictureBox1.Location.X == moveParameterList[0] && pictureBox1.Location.Y == moveParameterList[1])
+                                    {
+                                        movePointer = false; //move pointer
+                                        MessageBox.Show(movePointer.ToString());
+                                    }
+                                    else
+                                    {
+                                        movePointer = true; //move pointer
+                                        MessageBox.Show(movePointer.ToString());
+                                        //drawToLine = false;
+                                    }
+
+                                    //line = new Line(moveX, moveY);
+                                    ////rectangle = new Rectangle();  //creates new rectangle
+                                    //lineObjects.Add(line);
+                                }
+                            }
+                        }
+                    }
                 }
+
             }
             catch (IndexOutOfRangeException ex)
             {
@@ -201,6 +275,15 @@ namespace Graphical_Programming_Language__Application
                 }
 
                 //rectangle.draw(g); //draw circle with given graphics
+            }
+
+            if (movePointer == true) //condition to move pointer
+            {
+                MessageBox.Show("moving");
+                point = new Point();
+                point.X = moveParameterList[0];
+                point.Y = moveParameterList[1];
+                pictureBox1.Location = point;
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Graphical_Programming_Language__Application
         }
 
 
-        public static Boolean checkParameterListVacancy(List<int> ParameterList, int parameter, int maxParameterValue, int loopCounter, int initialParameterCountno)
+        public static Boolean checkParameterListVacancy(List<int> ParameterList, int parameter, int maxParameterValue, int loopCounter, int initialParameterCountno, Boolean movePointer)
         {
             if ((ParameterList.Count < maxParameterValue) || ParameterList == null)
             {
@@ -32,13 +32,34 @@ namespace Graphical_Programming_Language__Application
             else
             {
                 MessageBox.Show("Parameter passed exceeds its limitation");
-                Boolean isChecked = checkParameterListValueWithPrevValue(ParameterList, parameter, loopCounter, initialParameterCountno);
+                Boolean isChecked = checkParameterListValueWithPrevValue(ParameterList, parameter, loopCounter, initialParameterCountno, movePointer);
                 return isChecked;
             }
+
         }
 
 
-        public static Boolean checkParameterListValueWithPrevValue(List<int> ParameterList, int parameter, int loopCounter, int initialParameterCountno)
+        //public static Boolean checkParameterListValueWithPrevValue(List<int> ParameterList, int parameter, int loopCounter, int initialParameterCountno)
+        //{
+        //    if (ParameterList.ElementAt(loopCounter - initialParameterCountno) == parameter) //if previous value of parameter list matched recent value
+        //    {
+        //        MessageBox.Show("same parameter passed");
+        //        foreach (int parameterList in ParameterList)
+        //        {
+        //            MessageBox.Show("ParameterList 1: " + parameterList);
+        //        }
+        //        return false;
+                
+        //    }
+        //    else
+        //    {
+        //        int value = ParameterList[ParameterList.FindIndex(ind => ind.Equals(ParameterList.ElementAt(loopCounter - initialParameterCountno)))] = parameter;
+        //        return true;
+        //        //MessageBox.Show("Replace Element be like: " + value.ToString());
+        //    }
+        //}
+
+        public static Boolean checkParameterListValueWithPrevValue(List<int> ParameterList, int parameter, int loopCounter, int initialParameterCountno, Boolean movePointer)
         {
             if (ParameterList.ElementAt(loopCounter - initialParameterCountno) == parameter) //if previous value of parameter list matched recent value
             {
@@ -47,6 +68,13 @@ namespace Graphical_Programming_Language__Application
                 {
                     MessageBox.Show("ParameterList 1: " + parameterList);
                 }
+
+                if (movePointer == true)
+                {
+                    return true;
+                }
+                return false;
+
             }
             else
             {
@@ -54,8 +82,6 @@ namespace Graphical_Programming_Language__Application
                 return true;
                 //MessageBox.Show("Replace Element be like: " + value.ToString());
             }
-
-            return false;
         }
 
 
