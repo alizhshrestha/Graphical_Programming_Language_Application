@@ -33,6 +33,8 @@ namespace Graphical_Programming_Language__Application
             {
                 MessageBox.Show("Parameter passed exceeds its limitation");
                 Boolean isChecked = checkParameterListValueWithPrevValue(ParameterList, parameter, loopCounter, initialParameterCountno, movePointer);
+
+                
                 return isChecked;
             }
 
@@ -64,24 +66,24 @@ namespace Graphical_Programming_Language__Application
             if (ParameterList.ElementAt(loopCounter - initialParameterCountno) == parameter) //if previous value of parameter list matched recent value
             {
                 MessageBox.Show("same parameter passed");
-                foreach (int parameterList in ParameterList)
-                {
-                    MessageBox.Show("ParameterList 1: " + parameterList);
-                }
-
+                
                 if (movePointer == true)
                 {
                     return true;
                 }
-                return false;
-
             }
             else
             {
                 int value = ParameterList[ParameterList.FindIndex(ind => ind.Equals(ParameterList.ElementAt(loopCounter - initialParameterCountno)))] = parameter;
+                foreach (int parameterList in ParameterList)
+                {
+                    MessageBox.Show("ParameterList : " + loopCounter + " " + parameterList);
+                }
+
                 return true;
                 //MessageBox.Show("Replace Element be like: " + value.ToString());
             }
+            return true;
         }
 
 

@@ -17,6 +17,7 @@ namespace Graphical_Programming_Language__Application
         List<Circle> circleObjects; //list to hold circle objects
         List<Rectangle> rectangleObjects; //list to hold rectangle objects
         List<Line> lineObjects;
+        List<Variables> variableObjects;
         Circle circle; //declaration of circle
         Rectangle rectangle; //declaration of rectangle
         Line line;
@@ -27,7 +28,14 @@ namespace Graphical_Programming_Language__Application
         int moveX, moveY; //cursor moving direction points
         private bool drawToLine;
 
+
+        Variables v;
+
+        int height, width, radius;
+
         Point point; //defines points in panel
+        bool VariableAdd;
+
 
 
         /// <summary>
@@ -57,6 +65,7 @@ namespace Graphical_Programming_Language__Application
             circleObjects = new List<Circle>(); //creates array of new circle objects
             rectangleObjects = new List<Rectangle>(); //creates array of new rectangle objects
             lineObjects = new List<Line>();
+            variableObjects = new List<Variables>();
             
             
             //List to hold parameter info
@@ -92,11 +101,95 @@ namespace Graphical_Programming_Language__Application
                 //loop through the whole program code line
                 for (int i = 0; i < parts.Length; i++)
                 {
+
+
                     //single code line
                     String code_line = parts[i];
 
+                    char[] code_delimiters = new char[] { ' ', '=' };
+                    words = code_line.Split(code_delimiters, StringSplitOptions.RemoveEmptyEntries); //holds invididuals code line
+                    MessageBox.Show(words.Count().ToString());
+
+                    if (Regex.IsMatch(words[0], @"^[a-zA-Z]+$") && words.Count()==2 && !words.Contains("end"))
+                    {
+                        if (variableObjects == null || variableObjects.Count == 0)
+                        {
+                            v = new Variables();
+                            v.setVariable(words[0]);
+                            v.setValue(Convert.ToInt32(words[1]));
+                            MessageBox.Show("Adding variable: " +v.getVariable());
+                            MessageBox.Show("Adding value: " + v.getValue().ToString());
+                            variableObjects.Add(v);
+                        }
+                        else
+                        {
+                            if (variableObjects.Exists(x => x.variable == words[0])==true)
+                            {
+                                if (variableObjects.Exists(x => x.value == Convert.ToInt32(words[1])) == true)
+                                {
+                                    MessageBox.Show("exists");
+                                }
+                                else
+                                {
+                                    v.setVariable(words[0]);
+                                    v.setValue(Convert.ToInt32(words[1]));
+                                    variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;
+                                    //MessageBox.Show("Variable: " + variableObjects.Find(x => x.variable.Contains(words[0])).ToString());
+                                    //MessageBox.Show("Value: " + variableObjects.Find(x => x.variable.Contains(words[1])).ToString());
+                                }
+
+                            }
+                            else
+                            {
+                                v = new Variables();
+                                v.setVariable(words[0]);
+                                v.setValue(Convert.ToInt32(words[1]));
+                                MessageBox.Show("Adding variable: " + v.getVariable());
+                                MessageBox.Show("Adding value: " + v.getValue().ToString());
+                                variableObjects.Add(v);        
+                            }
+
+                            //foreach (Variables v in variableObjects)
+                            //{
+                            //    String var_exists = v.getVariable();
+                            //    float num_exists = v.getValue();
+                            //    variableObjects.Exists(x => x.variable == var_exists);                                           
+                            //    //if (words[0] == var_exists && Convert.ToInt32(words[1]) == num_exists)
+                            //    //{
+                            //    //    MessageBox.Show("Variable exists");
+                            //    //    VariableAdd = false;
+
+                            //    //}
+                            //    //else if ()
+                            //    //{
+
+                            //    //}
+                            //    //else
+                            //    //{
+                            //    //    VariableAdd = true;
+                            //    //}
+                            //}
+                        }
+
+                        //if (VariableAdd == true)
+                        //{
+                        
+                        //}
+
+
+                    }
+
+                    if (words[0]=="show")
+                    {
+                        foreach (Variables v in variableObjects)
+                        {
+                            MessageBox.Show("Full variable: " + v.getVariable());
+                            MessageBox.Show("Full value: " + Convert.ToString(v.getValue()));
+                        }
+                    }
+
                     //individual words of the code line
-                    words = code_line.Split(' ');
+                    //words = code_line.Split(' ');
 
                     //condition to check if "draw" then
                     if (words[0] == "draw")
@@ -112,6 +205,12 @@ namespace Graphical_Programming_Language__Application
                                 //for storing parameters value in int array
                                 for (int j = 3; j < words.Length; j++)
                                 {
+                                    if (words[j].Contains("radius"))
+                                    {
+                                        words[j] = radius.ToString();
+                                        MessageBox.Show(words[j]);
+                                    }
+
                                     int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
                                     Boolean doDraw;
                                     doDraw = DrawController.checkParameterListVacancy(circleParameterList, parameter, 1, j, 3, movePointer);
@@ -152,6 +251,16 @@ namespace Graphical_Programming_Language__Application
                                 //for storing parameters value in int array
                                 for (int j = 3; j < words.Length; j++)
                                 {
+                                    if (words[j].Contains("height"))
+                                    {
+                                        words[j] = height.ToString();
+                                        MessageBox.Show(words[j]);
+                                    }
+                                    else if (words[j].Contains("width"))
+                                    {
+                                        words[j] = width.ToString();
+                                        MessageBox.Show(words[j]);
+                                    }
                                     int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
                                     Boolean doDraw;
                                     doDraw = DrawController.checkParameterListVacancy(rectangleParameterList, parameter, 2, j, 3, movePointer);
@@ -159,19 +268,29 @@ namespace Graphical_Programming_Language__Application
 
                                     if (movePointer == true)
                                     {
-                                        if (doDraw == true && rectangleParameterList.Count == 2)
+                                        if (doDraw == true && j==4)
                                         {
                                             drawRect = true; //draw circle
                                             rectangle = new Rectangle(moveX, moveY);
                                             //rectangle = new Rectangle();  //creates new rectangle
+                                            //if (words[j].Contains("height"))
+                                            //{
+                                            //    rectangle.setHeight(height);
+                                            //}else if (words[j].Contains("width"))
+                                            //{
+                                            //    rectangle.setWidth(width);
+                                            //}
+                                            //else
+                                            //{
                                             rectangle.setWidth(Convert.ToInt32(rectangleParameterList[0])); //sets width
                                             rectangle.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
+                                            //}
                                             rectangleObjects.Add(rectangle);
                                         }
                                     }
                                     else
                                     {
-                                        if (doDraw == true && rectangleParameterList.Count == 2)
+                                        if (doDraw == true && j==4)
                                         {
                                             drawRect = true; //draw circle
                                             rectangle = new Rectangle();
@@ -180,8 +299,6 @@ namespace Graphical_Programming_Language__Application
                                             rectangle.setHeight(Convert.ToInt32(rectangleParameterList[1])); //sets height
                                             rectangleObjects.Add(rectangle);
                                         }
-
-
                                     }
                                 }
                             }
@@ -205,7 +322,7 @@ namespace Graphical_Programming_Language__Application
                                 int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
                                 Boolean doDraw;
                                 doDraw = DrawController.checkParameterListVacancy(moveParameterList, parameter, 2, j, 1, movePointer);
-                                if (doDraw == true && moveParameterList.Count == 2)
+                                if (doDraw == true && j == 2)
                                 {
                                     if (pictureBox1.Location.X == moveParameterList[0] && pictureBox1.Location.Y == moveParameterList[1])
                                     {
@@ -226,6 +343,68 @@ namespace Graphical_Programming_Language__Application
                             }
                         }
                     }
+
+                    if (words[0]=="height")
+                    {
+                        height = Convert.ToInt32(words[1]);
+                        //MessageBox.Show(height.ToString());
+                    }
+
+                    if (words[0]=="width")
+                    {
+                        width = Convert.ToInt32(words[1]);
+                        //MessageBox.Show(width.ToString());
+                    }
+
+                    if (words[0] == "radius")
+                    {
+                        radius = Convert.ToInt32(words[1]);
+                        MessageBox.Show("Radius is: "+ radius.ToString());
+                    }
+
+                    
+
+                    if (words[0] == "if")
+                    {
+                        string variable_name = words[1];
+                        int value = Convert.ToInt32(words[2]);
+                        MessageBox.Show("if is in " + i.ToString());
+                        if (variableObjects.Exists(x => x.variable == words[1]) == true && variableObjects.Exists(x => x.value == Convert.ToInt32(words[2])) == true)
+                        {
+                            MessageBox.Show("!!Entered into if statement!!");
+
+                        }
+                        //if (height == value)
+                        //{
+
+                        //    //return;
+                        //}
+                        else
+                        {
+                            i = Array.IndexOf(parts, "end if");
+                            MessageBox.Show("next step is in " + i.ToString());
+
+                            //for (int j = i; j < parts.Length; j++)
+                            //{
+                            //    //MessageBox.Show("if is in" + i);
+                            //    if (parts.Contains("end if"))
+                            //    {
+
+                            //        MessageBox.Show("end if is in: " + i.ToString());
+                            //        return;
+                            //    }
+                            //}
+                        }
+                        
+
+                        
+                        //for (int j = 1; j < words.Count(); j++)
+                        //{
+                        //    ConditionController condition = new ConditionController();
+                        //    condition.setVariable();
+                        //}
+                        
+                    }
                 }
 
             }
@@ -242,7 +421,7 @@ namespace Graphical_Programming_Language__Application
             //    MessageBox.Show("!!Please input correct parameter!!");
 
             //}
-
+            MessageBox.Show("if condition completed with width " + width);
             panel1.Refresh(); //refresh with every drawing equals to true
 
         }
