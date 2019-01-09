@@ -108,16 +108,24 @@ namespace Graphical_Programming_Language__Application
                 //loop through the whole program code line
                 for (int i = 0; i < parts.Length; i++)
                 {
-
-
                     //single code line
                     String code_line = parts[i];
 
-                    char[] code_delimiters = new char[] { ' ', '=', '+'};
+                    char[] code_delimiters = new char[] { ' ', '='};
                     words = code_line.Split(code_delimiters, StringSplitOptions.RemoveEmptyEntries); //holds invididuals code line
-                    MessageBox.Show("words Length:" + words.Count().ToString());
+                    //MessageBox.Show("words Length:" + words.Count().ToString());
+                    //foreach (string word in words)
+                    //{
+                    //    MessageBox.Show(word);
+                    //}
 
-                    if ((Regex.IsMatch(words[0], @"^[a-zA-Z]+$") && words.Count()==2 && !words.Contains("end") || words.Count()==3))
+                    if (words[1] == "+")
+                    {
+                        variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].setValue(variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue() + Convert.ToInt32(words[2]));
+                        MessageBox.Show(variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue().ToString());
+                    }
+
+                    if ((Regex.IsMatch(words[0], @"^[a-zA-Z]+$") && words.Count()==2 && !words.Contains("end")))
                     {
                         if (variableObjects == null || variableObjects.Count == 0)
                         {
@@ -134,16 +142,16 @@ namespace Graphical_Programming_Language__Application
                             {
                                 if (variableObjects.Exists(x => x.value == Convert.ToInt32(words[1])) == true)
                                 {
-                                    if (words.Length == 3)
-                                    {
-                                        incrementVal = Convert.ToInt64(words[2]);
+                                    //if (words.Length == 3)
+                                    //{
+                                    //    incrementVal = Convert.ToInt64(words[2]);
+                                    //    v.setVariable(words[0]);
+                                    //    v.setValue(Convert.ToInt32(words[1]) + incrementVal);
+                                    //    variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;
+                                    //}
 
-                                    }
-                                    v.setVariable(words[0]);
-                                    v.setValue(Convert.ToInt32(words[1])+ incrementVal);
-                                    variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;
-                                    MessageBox.Show("New incremented variable: " + v.getVariable());
-                                    MessageBox.Show("New incremented value: " + v.getValue().ToString());
+                                    //MessageBox.Show("New incremented variable: " + v.getVariable());
+                                    //MessageBox.Show("New incremented value: " + v.getValue().ToString());
                                     MessageBox.Show("exists");
                                 }
                                 else
@@ -161,8 +169,8 @@ namespace Graphical_Programming_Language__Application
                                 v = new Variables();
                                 v.setVariable(words[0]);
                                 v.setValue(Convert.ToInt32(words[1]));
-                                MessageBox.Show("Adding variable: " + v.getVariable());
-                                MessageBox.Show("Adding value: " + v.getValue().ToString());
+                                //MessageBox.Show("Adding variable: " + v.getVariable());
+                                //MessageBox.Show("Adding value: " + v.getValue().ToString());
                                 variableObjects.Add(v);        
                             }
 
@@ -205,6 +213,7 @@ namespace Graphical_Programming_Language__Application
                         }
                     }
 
+
                     //individual words of the code line
                     //words = code_line.Split(' ');
                     
@@ -212,7 +221,6 @@ namespace Graphical_Programming_Language__Application
                     if (words[0] == "draw")
                     {
                         counter += 1;
-
 
                         if (words[1] == "circle") // condition to check if "circle" then
                         {
@@ -231,10 +239,10 @@ namespace Graphical_Programming_Language__Application
                                     //    MessageBox.Show(words[j]);
                                     //}
 
+
                                     if (variableObjects.Exists(x => x.variable == words[j]) == true)
                                     {
-                                        words[j] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindLastIndex(x => x.variable.Contains(words[j]))).getValue());
-
+                                        words[j] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[j]))).getValue());
                                     }
                                     
 
@@ -279,16 +287,22 @@ namespace Graphical_Programming_Language__Application
                                 //for storing parameters value in int array
                                 for (int j = 3; j < words.Length; j++)
                                 {
-                                    if (words[j].Contains("height"))
+
+                                    if (variableObjects.Exists(x => x.variable == words[j]) == true)
                                     {
-                                        words[j] = height.ToString();
-                                        MessageBox.Show(words[j]);
+                                        words[j] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[j]))).getValue());
                                     }
-                                    else if (words[j].Contains("width"))
-                                    {
-                                        words[j] = width.ToString();
-                                        MessageBox.Show(words[j]);
-                                    }
+
+                                    //if (words[j].Contains("height"))
+                                    //{
+                                    //    words[j] = height.ToString();
+                                    //    MessageBox.Show(words[j]);
+                                    //}
+                                    //else if (words[j].Contains("width"))
+                                    //{
+                                    //    words[j] = width.ToString();
+                                    //    MessageBox.Show(words[j]);
+                                    //}
                                     int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
                                     Boolean doDraw;
                                     doDraw = DrawController.checkParameterListVacancy(rectangleParameterList, parameter, 2, j, 3, movePointer);
@@ -373,23 +387,23 @@ namespace Graphical_Programming_Language__Application
                     }
 
 
-                    if (words[0]=="height")
-                    {
-                        height = Convert.ToInt32(words[1]);
-                        //MessageBox.Show(height.ToString());
-                    }
+                    //if (words[0]=="height")
+                    //{
+                    //    height = Convert.ToInt32(words[1]);
+                    //    //MessageBox.Show(height.ToString());
+                    //}
 
-                    if (words[0]=="width")
-                    {
-                        width = Convert.ToInt32(words[1]);
-                        //MessageBox.Show(width.ToString());
-                    }
+                    //if (words[0]=="width")
+                    //{
+                    //    width = Convert.ToInt32(words[1]);
+                    //    //MessageBox.Show(width.ToString());
+                    //}
 
-                    if (words[0] == "radius")
-                    {
-                        radius = Convert.ToInt32(words[1]);
-                        MessageBox.Show("Radius is: "+ radius.ToString());
-                    }
+                    //if (words[0] == "radius")
+                    //{
+                    //    radius = Convert.ToInt32(words[1]);
+                    //    MessageBox.Show("Radius is: "+ radius.ToString());
+                    //}
 
                     
 
@@ -441,10 +455,10 @@ namespace Graphical_Programming_Language__Application
                     {
                         loopCounter = Convert.ToInt32(words[1]);
                         MessageBox.Show("!!Entered into loop!!");
-
                     }
 
                     
+
                     if (parts[i]=="end loop")
                     {
                         //if (i < Array.IndexOf(parts, "end loop"))
@@ -472,7 +486,8 @@ namespace Graphical_Programming_Language__Application
             }
             catch (IndexOutOfRangeException ex)
             {
-                MessageBox.Show("!!Please input correct code or syntax!!");
+                //MessageBox.Show("!!Please input correct code or syntax!!");
+                MessageBox.Show("Message: " + ex.Message);
             }
             //catch (FormatException ex)
             //{
