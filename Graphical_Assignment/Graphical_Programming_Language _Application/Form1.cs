@@ -27,9 +27,16 @@ namespace Graphical_Programming_Language__Application
         List<int> circleParameterList, rectangleParameterList, moveParameterList, drawToParameterList; //Parameter list of objects
         int moveX, moveY; //cursor moving direction points
         private bool drawToLine;
-
+        int counter;
+        int loopCounter;
+        float incrementVal;
 
         Variables v;
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
 
         int height, width, radius;
 
@@ -106,11 +113,11 @@ namespace Graphical_Programming_Language__Application
                     //single code line
                     String code_line = parts[i];
 
-                    char[] code_delimiters = new char[] { ' ', '=' };
+                    char[] code_delimiters = new char[] { ' ', '=', '+'};
                     words = code_line.Split(code_delimiters, StringSplitOptions.RemoveEmptyEntries); //holds invididuals code line
-                    MessageBox.Show(words.Count().ToString());
+                    MessageBox.Show("words Length:" + words.Count().ToString());
 
-                    if (Regex.IsMatch(words[0], @"^[a-zA-Z]+$") && words.Count()==2 && !words.Contains("end"))
+                    if ((Regex.IsMatch(words[0], @"^[a-zA-Z]+$") && words.Count()==2 && !words.Contains("end") || words.Count()==3))
                     {
                         if (variableObjects == null || variableObjects.Count == 0)
                         {
@@ -127,6 +134,16 @@ namespace Graphical_Programming_Language__Application
                             {
                                 if (variableObjects.Exists(x => x.value == Convert.ToInt32(words[1])) == true)
                                 {
+                                    if (words.Length == 3)
+                                    {
+                                        incrementVal = Convert.ToInt64(words[2]);
+
+                                    }
+                                    v.setVariable(words[0]);
+                                    v.setValue(Convert.ToInt32(words[1])+ incrementVal);
+                                    variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;
+                                    MessageBox.Show("New incremented variable: " + v.getVariable());
+                                    MessageBox.Show("New incremented value: " + v.getValue().ToString());
                                     MessageBox.Show("exists");
                                 }
                                 else
@@ -190,10 +207,13 @@ namespace Graphical_Programming_Language__Application
 
                     //individual words of the code line
                     //words = code_line.Split(' ');
-
+                    
                     //condition to check if "draw" then
                     if (words[0] == "draw")
                     {
+                        counter += 1;
+
+
                         if (words[1] == "circle") // condition to check if "circle" then
                         {
                             if (!(words.Length == 4)) //extending parameter values
@@ -205,11 +225,19 @@ namespace Graphical_Programming_Language__Application
                                 //for storing parameters value in int array
                                 for (int j = 3; j < words.Length; j++)
                                 {
-                                    if (words[j].Contains("radius"))
+                                    //if (words[j].Contains("radius"))
+                                    //{
+                                    //    words[j] = radius.ToString();
+                                    //    MessageBox.Show(words[j]);
+                                    //}
+
+                                    if (variableObjects.Exists(x => x.variable == words[j]) == true)
                                     {
-                                        words[j] = radius.ToString();
-                                        MessageBox.Show(words[j]);
+                                        words[j] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindLastIndex(x => x.variable.Contains(words[j]))).getValue());
+
                                     }
+                                    
+
 
                                     int parameter = Convert.ToInt32(words[j]); // parameter converted to int value
                                     Boolean doDraw;
@@ -344,6 +372,7 @@ namespace Graphical_Programming_Language__Application
                         }
                     }
 
+
                     if (words[0]=="height")
                     {
                         height = Convert.ToInt32(words[1]);
@@ -404,6 +433,39 @@ namespace Graphical_Programming_Language__Application
                         //    condition.setVariable();
                         //}
                         
+                    }
+
+                    
+
+                    if (words[0]=="loop")
+                    {
+                        loopCounter = Convert.ToInt32(words[1]);
+                        MessageBox.Show("!!Entered into loop!!");
+
+                    }
+
+                    
+                    if (parts[i]=="end loop")
+                    {
+                        //if (i < Array.IndexOf(parts, "end loop"))
+                        //{
+                        //    //i = Array.IndexOf(parts, "loop " + loopCounter);
+                        //    //MessageBox.Show("looping!!");
+                        //    MessageBox.Show("Continue!!");
+                        //}
+                        //else
+                        //{
+                            
+                            if (counter < loopCounter)
+                            {
+                                i = Array.IndexOf(parts, "loop " + loopCounter);
+                            }
+                            else
+                            {
+                                i = Array.IndexOf(parts, "end loop");
+                            }
+
+                        //}
                     }
                 }
 
