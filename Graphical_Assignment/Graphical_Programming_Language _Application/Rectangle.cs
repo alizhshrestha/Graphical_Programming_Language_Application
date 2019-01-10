@@ -56,7 +56,7 @@ namespace Graphical_Programming_Language__Application
 
         public int getHeight()
         {
-            return height;
+            return this.height;
         }
 
 
@@ -67,7 +67,7 @@ namespace Graphical_Programming_Language__Application
 
         public int getWidth()
         {
-            return width;
+            return this.width;
         }
 
     }

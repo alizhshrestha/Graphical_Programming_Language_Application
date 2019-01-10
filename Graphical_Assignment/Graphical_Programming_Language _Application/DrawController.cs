@@ -13,6 +13,9 @@ namespace Graphical_Programming_Language__Application
         static List<Circle> circleObjects; //list to hold circle objects
         static List<int> circleParameterList;
 
+
+        static bool isChanged;
+
         DrawController()
         {
             circle = new Circle();
@@ -63,6 +66,7 @@ namespace Graphical_Programming_Language__Application
 
         public static Boolean checkParameterListValueWithPrevValue(List<int> ParameterList, int parameter, int loopCounter, int initialParameterCountno, Boolean movePointer)
         {
+            
             if (ParameterList.ElementAt(loopCounter - initialParameterCountno) == parameter) //if previous value of parameter list matched recent value
             {
                 MessageBox.Show("same parameter passed");
@@ -71,19 +75,22 @@ namespace Graphical_Programming_Language__Application
                 {
                     return true;
                 }
+
+                return true;
             }
             else
             {
                 int value = ParameterList[ParameterList.FindIndex(ind => ind.Equals(ParameterList.ElementAt(loopCounter - initialParameterCountno)))] = parameter;
-                foreach (int parameterList in ParameterList)
-                {
-                    MessageBox.Show("ParameterList : " + loopCounter + " " + parameterList);
-                }
-
-                return true;
+                isChanged = true;
+                //foreach (int parameterList in ParameterList)
+                //{
+                //    MessageBox.Show("ParameterList : " + loopCounter + " " + parameterList);
+                //}
                 //MessageBox.Show("Replace Element be like: " + value.ToString());
+                return true;
+                
             }
-            return true;
+            
         }
 
 
