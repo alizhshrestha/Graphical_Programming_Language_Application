@@ -34,6 +34,11 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.rtxt_split = new System.Windows.Forms.RichTextBox();
             this.btn_split = new System.Windows.Forms.Button();
+            this.btn_load = new System.Windows.Forms.Button();
+            this.btn_save = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.lbl_path = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -83,11 +88,46 @@
             this.btn_split.UseVisualStyleBackColor = true;
             this.btn_split.Click += new System.EventHandler(this.btn_split_Click);
             // 
+            // btn_load
+            // 
+            this.btn_load.Location = new System.Drawing.Point(346, 568);
+            this.btn_load.Name = "btn_load";
+            this.btn_load.Size = new System.Drawing.Size(75, 23);
+            this.btn_load.TabIndex = 3;
+            this.btn_load.Text = "load";
+            this.btn_load.UseVisualStyleBackColor = true;
+            this.btn_load.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btn_save
+            // 
+            this.btn_save.Location = new System.Drawing.Point(454, 568);
+            this.btn_save.Name = "btn_save";
+            this.btn_save.Size = new System.Drawing.Size(75, 23);
+            this.btn_save.TabIndex = 3;
+            this.btn_save.Text = "save";
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // lbl_path
+            // 
+            this.lbl_path.AutoSize = true;
+            this.lbl_path.Location = new System.Drawing.Point(358, 600);
+            this.lbl_path.Name = "lbl_path";
+            this.lbl_path.Size = new System.Drawing.Size(0, 13);
+            this.lbl_path.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(803, 625);
+            this.Controls.Add(this.lbl_path);
+            this.Controls.Add(this.btn_save);
+            this.Controls.Add(this.btn_load);
             this.Controls.Add(this.btn_split);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.rtxt_split);
@@ -98,6 +138,7 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -108,6 +149,11 @@
         private System.Windows.Forms.RichTextBox rtxt_split;
         private System.Windows.Forms.Button btn_split;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btn_load;
+        private System.Windows.Forms.Button btn_save;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label lbl_path;
     }
 }
 

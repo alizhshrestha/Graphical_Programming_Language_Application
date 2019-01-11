@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Graphical_Programming_Language__Application
 {
-    class Variables
+    public class Variables
     {
         public string variable { get; set; }
         public float value { get; set; }

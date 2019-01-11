@@ -1,0 +1,17 @@
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Graphical_Programming_Language _Application.Test.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Graphical_Programming_Language _Application.Test.pdb
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Graphical_Programming_Language _Application.exe
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Graphical_Programming_Language _Application.pdb
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Graphical_Programming_Language _Application.exe.config
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\obj\Debug\Graphical_Programming_Language _Application.Test.csprojAssemblyReference.cache
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\obj\Debug\Graphical_Programming_Language _Application.Test.csproj.CoreCompileInputs.cache
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\obj\Debug\Graphical_Programming_Language _Application.Test.csproj.CopyComplete
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\obj\Debug\Graphical_Programming_Language _Application.Test.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Graphical_Programming_Language _Application.Test\obj\Debug\Graphical_Programming_Language _Application.Test.pdb

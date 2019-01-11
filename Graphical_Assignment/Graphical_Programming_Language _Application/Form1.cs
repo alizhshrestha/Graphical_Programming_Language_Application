@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,24 +15,21 @@ namespace Graphical_Programming_Language__Application
     public partial class Form1 : Form
     {
         Shape shape1, shape2; //declaration of shapeFactory
-        List<Circle> circleObjects; //list to hold circle objects
-        List<Rectangle> rectangleObjects; //list to hold rectangle objects
-        List<Line> lineObjects;
+
+        //list to hold individuals objects
+        List<Circle> circleObjects;
+        List<Rectangle> rectangleObjects;
         List<Variables> variableObjects;
         List<MoveDirection> moveObjects;
+
         Circle circle; //declaration of circle
         Rectangle rectangle; //declaration of rectangle
-        Line line;
         Boolean drawCircle, drawRect, movePointer; //boolean to check whether to make objects or not
         String program; //string to hold textarea info
-        String[] words; //words of the individual program line
-        List<int> circleParameterList, rectangleParameterList, moveParameterList, drawToParameterList; //Parameter list of objects
+        String[] words; //words of the individual program 
         int moveX, moveY; //cursor moving direction points
-        private bool drawToLine;
-        int counter;
-        int loopCounter;
-        float incrementVal;
-        Boolean doDraw;
+        int counter; // counter to loop code
+        int loopCounter; //loopcounter to hold loop value in loop code
 
         Variables v;
 
@@ -40,10 +38,26 @@ namespace Graphical_Programming_Language__Application
 
         }
 
-        int height, width, radius;
-
         Point point; //defines points in panel
-        bool VariableAdd;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog()==System.Windows.Forms.DialogResult.OK)
+            {
+                lbl_path.Text = openFileDialog1.FileName;
+                rtxt_code.Text = File.ReadAllText(lbl_path.Text);
+            }
+
+        }
+
+        private void btn_save_Click(object sender, EventArgs e)
+        {
+            if(saveFileDialog1.ShowDialog()== System.Windows.Forms.DialogResult.OK)
+            {
+                File.WriteAllText(saveFileDialog1.FileName, rtxt_code.Text);
+
+            }
+        }
 
 
 
@@ -70,19 +84,11 @@ namespace Graphical_Programming_Language__Application
         {
             circle = new Circle(); //creates new circle
             rectangle = new Rectangle(); //creates new rectangle
-            line = new Line();
             circleObjects = new List<Circle>(); //creates array of new circle objects
             rectangleObjects = new List<Rectangle>(); //creates array of new rectangle objects
-            lineObjects = new List<Line>();
-            variableObjects = new List<Variables>();
-            moveObjects = new List<MoveDirection>();
+            variableObjects = new List<Variables>(); //creates array of new variable objects
+            moveObjects = new List<MoveDirection>(); //creates array of new move objects
 
-
-            //List to hold parameter info
-            circleParameterList = new List<int>();
-            rectangleParameterList = new List<int>();
-            moveParameterList = new List<int>();
-            drawToParameterList = new List<int>();
         }
 
         /// <summary>
@@ -117,22 +123,20 @@ namespace Graphical_Programming_Language__Application
 
                     char[] code_delimiters = new char[] { ' '};
                     words = code_line.Split(code_delimiters, StringSplitOptions.RemoveEmptyEntries); //holds invididuals code line
-                    //MessageBox.Show("words Length:" + words.Count().ToString());
-                    //foreach (string word in words)
-                    //{
-                    //    MessageBox.Show(word);
-                    //}
 
+                    //calculation to add value to variable
                     if (Regex.IsMatch(words[0], @"^[a-zA-Z]+$") && words[1] == "+")
                     {
+                        //sets new incremented value to the defined variable and puts it in vaiableObjects class
                         variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].setValue(variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue() + Convert.ToInt32(words[2]));
-                        MessageBox.Show(variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue().ToString());
+                        //MessageBox.Show(variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue().ToString());
                     }
 
 
-                    //words.Count()==2 && !words.Contains("end")
+                    //assigns value to defined variables
                     if ((Regex.IsMatch(words[0], @"^[a-zA-Z]+$") && words[1]== "="))
                     {
+                        //add new variableObjects if variableObject is empty
                         if (variableObjects == null || variableObjects.Count == 0)
                         {
                             v = new Variables();
@@ -144,32 +148,13 @@ namespace Graphical_Programming_Language__Application
                         }
                         else
                         {
+                            //checks if variable and it's value exists in variableObjects or not 
                             if (variableObjects.Exists(x => x.variable == words[0] && x.value == Convert.ToInt32(words[2])) ==true)
                             {
-                                //if (variableObjects.Exists(x => x.value == Convert.ToInt32(words[2])) == true)
-                                //{
-                                    //if (words.Length == 3)
-                                    //{
-                                    //    incrementVal = Convert.ToInt64(words[2]);
-                                    //    v.setVariable(words[0]);
-                                    //    v.setValue(Convert.ToInt32(words[1]) + incrementVal);
-                                    //    variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;
-                                    //}
+                                MessageBox.Show("exists");
 
-                                    //MessageBox.Show("New incremented variable: " + v.getVariable());
-                                    //MessageBox.Show("New incremented value: " + v.getValue().ToString());
-                                    MessageBox.Show("exists");
-                                //}
-                                //else
-                                //{
-                                //    v.setVariable(words[0]);
-                                //    v.setValue(Convert.ToInt32(words[2]));
-                                //    variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;
-                                //    //MessageBox.Show("Variable: " + variableObjects.Find(x => x.variable.Contains(words[0])).ToString());
-                                //    //MessageBox.Show("Value: " + variableObjects.Find(x => x.variable.Contains(words[1])).ToString());
-                                //}
-
-                            }else if (!variableObjects.Exists(x => x.variable == words[0]))
+                            }//else checks if variable exists or not
+                            else if (!variableObjects.Exists(x => x.variable == words[0]))
                             {
                                 v = new Variables();
                                 v.setVariable(words[0]);
@@ -178,47 +163,18 @@ namespace Graphical_Programming_Language__Application
                                 MessageBox.Show("Adding value: " + v.getValue().ToString());
                                 variableObjects.Add(v);
                             }
+                            //else add new variable value to variableObjects
                             else
                             {
                                 v = new Variables();
                                 v.setVariable(words[0]);
                                 v.setValue(Convert.ToInt32(words[2]));
-                                //MessageBox.Show("Adding variable: " + v.getVariable());
-                                //MessageBox.Show("Adding value: " + v.getValue().ToString());
-                                variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;
-                                //variableObjects.Add(v);        
+                                variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;  
                             }
-
-                            //foreach (Variables v in variableObjects)
-                            //{
-                            //    String var_exists = v.getVariable();
-                            //    float num_exists = v.getValue();
-                            //    variableObjects.Exists(x => x.variable == var_exists);                                           
-                            //    //if (words[0] == var_exists && Convert.ToInt32(words[1]) == num_exists)
-                            //    //{
-                            //    //    MessageBox.Show("Variable exists");
-                            //    //    VariableAdd = false;
-
-                            //    //}
-                            //    //else if ()
-                            //    //{
-
-                            //    //}
-                            //    //else
-                            //    //{
-                            //    //    VariableAdd = true;
-                            //    //}
-                            //}
                         }
-
-                        //if (VariableAdd == true)
-                        //{
-                        
-                        //}
-
-
                     }
 
+                    //shows variableObjects lists
                     if (words[0]=="show")
                     {
                         foreach (Variables v in variableObjects)
@@ -227,49 +183,31 @@ namespace Graphical_Programming_Language__Application
                             MessageBox.Show("Full value: " + Convert.ToString(v.getValue()));
                         }
                     }
-
-
-                    //individual words of the code line
-                    //words = code_line.Split(' ');
                     
                     //condition to check if "draw" then
                     if (words[0] == "draw")
                     {
-                        counter += 1;
+                        counter += 1;//value to increment draw circle method
 
                         if (words[1] == "circle") // condition to check if "circle" then
                         {
-                            if (!(words.Length == 3)) //extending parameter values
+                            if (!(words.Length == 3)) //checks if written code is correct or not
                             {
                                 MessageBox.Show("can't draw");
                             }
                             else
                             {
-                                if (variableObjects.Exists(x => x.variable == words[2]) == true)
+                                if (variableObjects.Exists(x => x.variable == words[2]) == true) //assigns variable value to draw code parameter value
                                 {
-                                    words[2] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[2]))).getValue());
+                                    words[2] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[2]))).getValue()); //variable value to radius parameter
                                 }
-
-
-                                if (circleObjects.Exists(x => x.getX() == moveX && x.getY() == moveY && x.getRadius() == Convert.ToInt32(words[2])) == true)
+                                if (circleObjects.Exists(x => x.getX() == moveX && x.getY() == moveY && x.getRadius() == Convert.ToInt32(words[2])) == true) //checks if circle with x,y,radius parameter exists or not
                                 {
-                                    //if (circleObjects.Exists(x => x.getRadius() == Convert.ToInt32(words[2])) == true)
-                                    //{
-                                        MessageBox.Show("dont draw");
-                                    //}
-                                    //else
-                                    //{
-                                    //    Circle circle = new Circle();
-                                    //    circle.setX(moveX);
-                                    //    circle.setY(moveY);
-                                    //    circle.setRadius(Convert.ToInt32(words[2]));
-                                    //    circleObjects.Add(circle);
-                                    //    drawCircle = true;
-                                    //}
+                                    MessageBox.Show("dont draw");
 
                                 }
                                 else
-                                {
+                                {//if not exists then creates new circle and add to circleObjects and draws circle
                                     Circle circle = new Circle();
                                     circle.setX(moveX);
                                     circle.setY(moveY);
@@ -284,7 +222,7 @@ namespace Graphical_Programming_Language__Application
                         
 
 
-                        if (words[1] == "rectangle") // condition to check if "circle" then
+                        if (words[1] == "rectangle") // condition to check if "rectangle" then
                         {
                             MessageBox.Show(moveX.ToString());
                             if (!(words.Length == 4)) //extending parameter values
@@ -293,42 +231,26 @@ namespace Graphical_Programming_Language__Application
                             }
                             else
                             {
+
+                                //assigns variable value to draw code parameter value
                                 if (variableObjects.Exists(x => x.variable == words[2] == true))
                                 {
-                                    words[2] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[2]))).getValue());
+                                    words[2] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[2]))).getValue()); //variable value to height parameter
                                 }
-
                                 if (variableObjects.Exists(x => x.variable == words[3]) == true)
                                 {
-                                    words[3] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[3]))).getValue());
+                                    words[3] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[3]))).getValue()); //variable value to width parameter
                                     MessageBox.Show("Height = " + words[2]);
                                     MessageBox.Show("Width = " + words[3]);
                                 }
 
 
-
-
-                                if (rectangleObjects.Exists(x => x.getX() == moveX && x.getY() == moveY && x.getHeight() == Convert.ToInt32(words[2]) && x.getWidth() == Convert.ToInt32(words[3])) == true)
+                                if (rectangleObjects.Exists(x => x.getX() == moveX && x.getY() == moveY && x.getHeight() == Convert.ToInt32(words[2]) && x.getWidth() == Convert.ToInt32(words[3])) == true)//checks if rectangle with x,y,height,width parameter exists or not
                                 {
-                                    //if (rectangleObjects.Exists(x => x.getHeight() == Convert.ToInt32(words[2]) && x.getWidth() == Convert.ToInt32(words[3])) == true)
-                                    //{
-                                    //    MessageBox.Show("dont draw");
-                                    //}
-                                    //else
-                                    //{ 
                                     MessageBox.Show("dont draw");
-                                    //Rectangle rect = new Rectangle();
-                                    //    rect.setX(moveX);
-                                    //    rect.setY(moveY);
-                                    //    rect.setHeight(Convert.ToInt32(words[2]));
-                                    //    rect.setWidth(Convert.ToInt32(words[3]));
-                                    //    rectangleObjects.Add(rect);
-                                    //    drawRect = true;
-                                    //}
-
                                 }
                                 else
-                                {
+                                {//if not exists then creates new rectangle and add to rectangleObjects and draws rectangle
                                     Rectangle rect = new Rectangle();
                                     rect.setX(moveX);
                                     rect.setY(moveY);
@@ -341,10 +263,10 @@ namespace Graphical_Programming_Language__Application
                         }
                     }
 
-                    if (words[0] == "move") // condition to check if "circle" then
+                    if (words[0] == "move") // condition to check if "move" then
                     {
 
-                        if (Convert.ToInt32(words[1])==pictureBox1.Location.X && Convert.ToInt32(words[2])==pictureBox1.Location.Y)
+                        if (Convert.ToInt32(words[1])==pictureBox1.Location.X && Convert.ToInt32(words[2])==pictureBox1.Location.Y)//checks if cursor is in different position
                         {
                             MessageBox.Show("don't move");
                         }
@@ -357,98 +279,61 @@ namespace Graphical_Programming_Language__Application
                     }
 
 
-                    if (words[0] == "if")
+                    if (words[0] == "if") //code for if statement
                     {
                         string variable_name = words[1];
                         int value = Convert.ToInt32(words[3]);
                         MessageBox.Show("if is in " + i.ToString());
-                        if (variableObjects.Exists(x => x.variable == words[1]) == true && variableObjects.Exists(x => x.value == Convert.ToInt32(words[3])) == true)
+                        if (variableObjects.Exists(x => x.variable == words[1]) == true && variableObjects.Exists(x => x.value == Convert.ToInt32(words[3])) == true) //checks if condition defined in if condition matches with variable objects list
                         {
                             MessageBox.Show("!!Entered into if statement!!");
 
                         }
-                        //if (height == value)
-                        //{
-
-                        //    //return;
-                        //}
                         else
-                        {
+                        {//directed to end if line
                             i = Array.IndexOf(parts, "end if");
                             MessageBox.Show("next step is in " + i.ToString());
-
-                            //for (int j = i; j < parts.Length; j++)
-                            //{
-                            //    //MessageBox.Show("if is in" + i);
-                            //    if (parts.Contains("end if"))
-                            //    {
-
-                            //        MessageBox.Show("end if is in: " + i.ToString());
-                            //        return;
-                            //    }
-                            //}
                         }
-                        
-
-                        
-                        //for (int j = 1; j < words.Count(); j++)
-                        //{
-                        //    ConditionController condition = new ConditionController();
-                        //    condition.setVariable();
-                        //}
                         
                     }
 
                     
 
-                    if (words[0]=="loop")
+                    if (words[0]=="loop") //code for loop statement
                     {
-                        loopCounter = Convert.ToInt32(words[1]);
+                        loopCounter = Convert.ToInt32(words[1]); //defines loop counter variable
                         MessageBox.Show("!!Entered into loop!!");
                     }
 
                     
 
-                    if (parts[i]=="end loop")
+                    if (parts[i]=="end loop") // code for end loop statement
                     {
-                        //if (i < Array.IndexOf(parts, "end loop"))
-                        //{
-                        //    //i = Array.IndexOf(parts, "loop " + loopCounter);
-                        //    //MessageBox.Show("looping!!");
-                        //    MessageBox.Show("Continue!!");
-                        //}
-                        //else
-                        //{
-                            
-                            if (counter < loopCounter)
-                            {
-                                i = Array.IndexOf(parts, "loop " + loopCounter);
-                            }
-                            else
-                            {
-                                i = Array.IndexOf(parts, "end loop");
-                            }
-
-                        //}
+                        if (counter < loopCounter) //if counter to draw is not less than loop counter
+                        {
+                            i = Array.IndexOf(parts, "loop " + loopCounter);
+                        }
+                        else // keep drawing
+                        {
+                            i = Array.IndexOf(parts, "end loop");
+                        }
                     }
                 }
 
             }
             catch (IndexOutOfRangeException ex)
             {
-                //MessageBox.Show("!!Please input correct code or syntax!!");
                 MessageBox.Show("Message: " + ex.Message);
             }
-            //catch (FormatException ex)
-            //{
-            //    MessageBox.Show("!!Please input correct parameter!!");
-            //}
-            //catch (ArgumentOutOfRangeException ex)
-            //{
-            //    MessageBox.Show("!!Please input correct parameter!!");
+            catch (FormatException ex)
+            {
+                MessageBox.Show("!!Please input correct parameter!!");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("!!Please input correct parameter!!");
 
-            //}
-            MessageBox.Show("if condition completed with width " + width);
+            }
             panel1.Refresh(); //refresh with every drawing equals to true
 
         }
@@ -479,8 +364,6 @@ namespace Graphical_Programming_Language__Application
                     MessageBox.Show("Drawing Rectangle");
                     rectangleObject.draw(g); //draw circle with given graphics
                 }
-
-                //rectangle.draw(g); //draw circle with given graphics
             }
 
             if (movePointer == true) //condition to move pointer

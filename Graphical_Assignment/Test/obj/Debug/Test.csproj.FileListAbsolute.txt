@@ -1,0 +1,11 @@
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\bin\Debug\Test.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\bin\Debug\Test.pdb
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\bin\Debug\Graphical_Programming_Language _Application.exe
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\bin\Debug\Graphical_Programming_Language _Application.pdb
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\bin\Debug\Graphical_Programming_Language _Application.exe.config
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\obj\Debug\Test.csprojAssemblyReference.cache
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\obj\Debug\Test.csproj.CoreCompileInputs.cache
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\obj\Debug\Test.csproj.CopyComplete
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\obj\Debug\Test.dll
+E:\Colz\ASE\ASE_Assessment_2\Graphical_Assignment\Test\obj\Debug\Test.pdb
