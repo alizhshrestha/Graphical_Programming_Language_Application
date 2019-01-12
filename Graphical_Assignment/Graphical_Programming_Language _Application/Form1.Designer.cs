@@ -40,15 +40,17 @@
             this.lbl_path = new System.Windows.Forms.Label();
             this.txt_hint = new System.Windows.Forms.RichTextBox();
             this.btn_refresh = new System.Windows.Forms.Button();
+            this.rtxt_console = new System.Windows.Forms.RichTextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // rtxt_code
             // 
-            this.rtxt_code.Location = new System.Drawing.Point(12, 374);
+            this.rtxt_code.Location = new System.Drawing.Point(15, 382);
             this.rtxt_code.Name = "rtxt_code";
-            this.rtxt_code.Size = new System.Drawing.Size(516, 163);
+            this.rtxt_code.Size = new System.Drawing.Size(805, 226);
             this.rtxt_code.TabIndex = 0;
             this.rtxt_code.Text = "";
             // 
@@ -57,7 +59,7 @@
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(768, 343);
+            this.panel1.Size = new System.Drawing.Size(1204, 343);
             this.panel1.TabIndex = 1;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -73,7 +75,7 @@
             // 
             // btn_split
             // 
-            this.btn_split.Location = new System.Drawing.Point(129, 563);
+            this.btn_split.Location = new System.Drawing.Point(230, 795);
             this.btn_split.Name = "btn_split";
             this.btn_split.Size = new System.Drawing.Size(75, 23);
             this.btn_split.TabIndex = 2;
@@ -83,7 +85,7 @@
             // 
             // btn_load
             // 
-            this.btn_load.Location = new System.Drawing.Point(231, 563);
+            this.btn_load.Location = new System.Drawing.Point(332, 795);
             this.btn_load.Name = "btn_load";
             this.btn_load.Size = new System.Drawing.Size(75, 23);
             this.btn_load.TabIndex = 3;
@@ -93,7 +95,7 @@
             // 
             // btn_save
             // 
-            this.btn_save.Location = new System.Drawing.Point(332, 563);
+            this.btn_save.Location = new System.Drawing.Point(433, 795);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(75, 23);
             this.btn_save.TabIndex = 3;
@@ -108,22 +110,22 @@
             // lbl_path
             // 
             this.lbl_path.AutoSize = true;
-            this.lbl_path.Location = new System.Drawing.Point(244, 594);
+            this.lbl_path.Location = new System.Drawing.Point(345, 826);
             this.lbl_path.Name = "lbl_path";
             this.lbl_path.Size = new System.Drawing.Size(0, 13);
             this.lbl_path.TabIndex = 4;
             // 
             // txt_hint
             // 
-            this.txt_hint.Location = new System.Drawing.Point(566, 374);
+            this.txt_hint.Location = new System.Drawing.Point(869, 382);
             this.txt_hint.Name = "txt_hint";
-            this.txt_hint.Size = new System.Drawing.Size(214, 163);
+            this.txt_hint.Size = new System.Drawing.Size(347, 383);
             this.txt_hint.TabIndex = 5;
             this.txt_hint.Text = "";
             // 
             // btn_refresh
             // 
-            this.btn_refresh.Location = new System.Drawing.Point(438, 562);
+            this.btn_refresh.Location = new System.Drawing.Point(539, 794);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(75, 23);
             this.btn_refresh.TabIndex = 6;
@@ -131,11 +133,34 @@
             this.btn_refresh.UseVisualStyleBackColor = true;
             this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
+            // rtxt_console
+            // 
+            this.rtxt_console.BackColor = System.Drawing.Color.Black;
+            this.rtxt_console.ForeColor = System.Drawing.Color.White;
+            this.rtxt_console.Location = new System.Drawing.Point(15, 647);
+            this.rtxt_console.Name = "rtxt_console";
+            this.rtxt_console.Size = new System.Drawing.Size(805, 118);
+            this.rtxt_console.TabIndex = 7;
+            this.rtxt_console.Text = "";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 620);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(84, 20);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "OUTPUT:";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(803, 625);
+            this.ClientSize = new System.Drawing.Size(1242, 830);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.rtxt_console);
             this.Controls.Add(this.btn_refresh);
             this.Controls.Add(this.txt_hint);
             this.Controls.Add(this.lbl_path);
@@ -167,6 +192,8 @@
         private System.Windows.Forms.Label lbl_path;
         private System.Windows.Forms.RichTextBox txt_hint;
         private System.Windows.Forms.Button btn_refresh;
+        private System.Windows.Forms.RichTextBox rtxt_console;
+        private System.Windows.Forms.Label label2;
     }
 }
 

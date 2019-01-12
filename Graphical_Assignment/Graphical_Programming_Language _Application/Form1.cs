@@ -35,6 +35,8 @@ namespace Graphical_Programming_Language__Application
 
         Variables v;
 
+        string console_text;
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
@@ -86,6 +88,11 @@ namespace Graphical_Programming_Language__Application
             this.rtxt_code.Clear();
             panel1.Refresh();
             //form1.Load;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
 
 
@@ -154,6 +161,13 @@ namespace Graphical_Programming_Language__Application
                 // ... Use RemoveEntryEntries so empty strings are not added.
                 char[] delimiters = new char[] { '\r', '\n' };
                 string[] parts = program.Split(delimiters, StringSplitOptions.RemoveEmptyEntries); //holds invididuals code line
+                console_text = "Program code: \n";
+                foreach (string part in parts)
+                {
+                    console_text += part + "\n";
+                }
+                console_text += "\n\n";
+                
 
                 //loop through the whole program code line
                 for (int i = 0; i < parts.Length; i++)
@@ -168,9 +182,12 @@ namespace Graphical_Programming_Language__Application
                     //calculation to add value to variable
                     if (Regex.IsMatch(words[0], @"^[a-zA-Z]+$") && words[1] == "+")
                     {
+
                         //sets new incremented value to the defined variable and puts it in vaiableObjects class
                         variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].setValue(variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue() + Convert.ToInt32(words[2]));
                         //MessageBox.Show(variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue().ToString());
+                        console_text += "Adding:  \n" + words[0] + " + " + words[2] + " = " + variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue().ToString() + "\n\n";
+                        
                     }
 
 
@@ -183,8 +200,7 @@ namespace Graphical_Programming_Language__Application
                             v = new Variables();
                             v.setVariable(words[0]);
                             v.setValue(Convert.ToInt32(words[2]));
-                            MessageBox.Show("Adding variable: " +v.getVariable());
-                            MessageBox.Show("Adding value: " + v.getValue().ToString());
+                            console_text += "Adding variable: \n" + v.getVariable() + " = "  + v.getValue().ToString() + "\n\n";
                             variableObjects.Add(v);
                         }
                         else
@@ -192,7 +208,7 @@ namespace Graphical_Programming_Language__Application
                             //checks if variable and it's value exists in variableObjects or not 
                             if (variableObjects.Exists(x => x.variable == words[0] && x.value == Convert.ToInt32(words[2])) ==true)
                             {
-                                MessageBox.Show("exists");
+                                console_text +=  "variable exists: \n" + words[0] + " = " +variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue().ToString() + "\n\n";
 
                             }//else checks if variable exists or not
                             else if (!variableObjects.Exists(x => x.variable == words[0]))
@@ -200,8 +216,7 @@ namespace Graphical_Programming_Language__Application
                                 v = new Variables();
                                 v.setVariable(words[0]);
                                 v.setValue(Convert.ToInt32(words[2]));
-                                MessageBox.Show("Adding variable: " + v.getVariable());
-                                MessageBox.Show("Adding value: " + v.getValue().ToString());
+                                console_text += "Adding variable: \n" + v.getVariable() + " = " + v.getValue().ToString() + "\n\n";
                                 variableObjects.Add(v);
                             }
                             //else add new variable value to variableObjects
@@ -210,7 +225,9 @@ namespace Graphical_Programming_Language__Application
                                 v = new Variables();
                                 v.setVariable(words[0]);
                                 v.setValue(Convert.ToInt32(words[2]));
-                                variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;  
+                                variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))] = v;
+                                console_text += "Replacing variable value: \n" + words[0] + " = " + variableObjects[variableObjects.FindIndex(x => x.variable.Contains(words[0]))].getValue().ToString() + "\n\n";
+
                             }
                         }
                     }
@@ -234,7 +251,8 @@ namespace Graphical_Programming_Language__Application
                         {
                             if (!(words.Length == 3)) //checks if written code is correct or not
                             {
-                                MessageBox.Show("can't draw");
+                                MessageBox.Show("!!Please enter correct command!!");
+                                console_text += "Correct code be like: \n e.g. draw circle 100 or draw circle r \n\n";
                             }
                             else
                             {
@@ -244,7 +262,7 @@ namespace Graphical_Programming_Language__Application
                                 }
                                 if (circleObjects.Exists(x => x.getX() == moveX && x.getY() == moveY && x.getRadius() == Convert.ToInt32(words[2])) == true) //checks if circle with x,y,radius parameter exists or not
                                 {
-                                    MessageBox.Show("dont draw");
+                                    console_text += "!!circle object exists with given parameters!!\n\n";
 
                                 }
                                 else
@@ -255,6 +273,7 @@ namespace Graphical_Programming_Language__Application
                                     circle.setRadius(Convert.ToInt32(words[2]));
                                     circleObjects.Add(circle);
                                     drawCircle = true;
+                                    console_text += "Adding new circle\n\n";
                                 }
                             }
                         }
@@ -266,7 +285,8 @@ namespace Graphical_Programming_Language__Application
                             MessageBox.Show(moveX.ToString());
                             if (!(words.Length == 4)) //extending parameter values
                             {
-                                MessageBox.Show("can't draw");
+                                MessageBox.Show("!!Please enter correct command!!");
+                                console_text += "Correct code be like: \n e.g. draw rectangle 100 100 or draw circle h w \n\n";
                             }
                             else
                             {
@@ -279,14 +299,12 @@ namespace Graphical_Programming_Language__Application
                                 if (variableObjects.Exists(x => x.variable == words[3]) == true)
                                 {
                                     words[3] = Convert.ToString(variableObjects.ElementAt(variableObjects.FindIndex(x => x.variable.Contains(words[3]))).getValue()); //variable value to width parameter
-                                    MessageBox.Show("Height = " + words[2]);
-                                    MessageBox.Show("Width = " + words[3]);
                                 }
 
 
                                 if (rectangleObjects.Exists(x => x.getX() == moveX && x.getY() == moveY && x.getHeight() == Convert.ToInt32(words[2]) && x.getWidth() == Convert.ToInt32(words[3])) == true)//checks if rectangle with x,y,height,width parameter exists or not
                                 {
-                                    MessageBox.Show("dont draw");
+                                    console_text += "!!rectangle object exists with given parameters!!\n\n";
                                 }
                                 else
                                 {//if not exists then creates new rectangle and add to rectangleObjects and draws rectangle
@@ -297,6 +315,7 @@ namespace Graphical_Programming_Language__Application
                                     rect.setWidth(Convert.ToInt32(words[3]));
                                     rectangleObjects.Add(rect);
                                     drawRect = true;
+                                    console_text += "Adding new rectangle\n\n";
                                 }
                             }
                         }
@@ -307,13 +326,15 @@ namespace Graphical_Programming_Language__Application
 
                         if (Convert.ToInt32(words[1])==pictureBox1.Location.X && Convert.ToInt32(words[2])==pictureBox1.Location.Y)//checks if cursor is in different position
                         {
-                            MessageBox.Show("don't move");
+                            //MessageBox.Show("don't move");
+                            console_text += "Its in requested position\n\n";
                         }
                         else
                         {
                             moveX = Convert.ToInt32(words[1]);
                             moveY = Convert.ToInt32(words[2]);
                             movePointer = true;
+                            console_text += "X="+ moveX+ "\n" + "Y=" + moveY +"\n\n";
                         }
                     }
 
@@ -322,16 +343,22 @@ namespace Graphical_Programming_Language__Application
                         if (words[1]=="red")
                         {
                             c = Color.Red;
-                        }else if (words[1]=="blue")
+                            console_text += "Pen is of red color\n\n";
+                        }
+                        else if (words[1]=="blue")
                         {
                             c = Color.Blue;
-                        }else if (words[1]=="yellow")
+                            console_text += "Pen is of blue color\n\n";
+                        }
+                        else if (words[1]=="yellow")
                         {
                             c = Color.Yellow;
+                            console_text += "Pen is of yellow color\n\n";
                         }
                         else
                         {
                             c = Color.Green;
+                            console_text += "Pen is of green color\n\n";
                         }
                     }
 
@@ -340,16 +367,14 @@ namespace Graphical_Programming_Language__Application
                     {
                         string variable_name = words[1];
                         int value = Convert.ToInt32(words[3]);
-                        MessageBox.Show("if is in " + i.ToString());
                         if (variableObjects.Exists(x => x.variable == words[1]) == true && variableObjects.Exists(x => x.value == Convert.ToInt32(words[3])) == true) //checks if condition defined in if condition matches with variable objects list
                         {
-                            MessageBox.Show("!!Entered into if statement!!");
+                            console_text += "Entered into if statement\n\n";
 
                         }
                         else
                         {//directed to end if line
                             i = Array.IndexOf(parts, "end if");
-                            MessageBox.Show("next step is in " + i.ToString());
                         }
                         
                     }
@@ -359,7 +384,7 @@ namespace Graphical_Programming_Language__Application
                     if (words[0]=="loop") //code for loop statement
                     {
                         loopCounter = Convert.ToInt32(words[1]); //defines loop counter variable
-                        MessageBox.Show("!!Entered into loop!!");
+                        console_text += "Entered into loop statement\n\n";
                     }
 
                     
@@ -380,17 +405,18 @@ namespace Graphical_Programming_Language__Application
             }
             catch (IndexOutOfRangeException ex)
             {
-                MessageBox.Show("Message: " + ex.Message);
+                console_text += "Error: " + ex.Message +"\n\n";
             }
             catch (FormatException ex)
             {
-                MessageBox.Show("!!Please input correct parameter!!");
+                console_text += "!!Please input correct parameter!!\n\n";
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                MessageBox.Show("!!Please input correct parameter!!");
+                console_text += "!!Please input correct parameter!!\n\n";
 
             }
+            rtxt_console.Text = console_text;
             panel1.Refresh(); //refresh with every drawing equals to true
 
         }
@@ -409,7 +435,7 @@ namespace Graphical_Programming_Language__Application
             {
                 foreach (Circle circleObject in circleObjects)
                 {
-                    MessageBox.Show("Drawing Circle");
+                    console_text += "Drawing Circle\n\n";
                     circleObject.draw(g, c); //draw circle with given graphics
                 }
             }
@@ -418,19 +444,20 @@ namespace Graphical_Programming_Language__Application
             {
                 foreach (Rectangle rectangleObject in rectangleObjects)
                 {
-                    MessageBox.Show("Drawing Rectangle");
+                    console_text += "Drawing Rectangle\n\n";
                     rectangleObject.draw(g, c); //draw circle with given graphics
                 }
             }
 
             if (movePointer == true) //condition to move pointer
             {
-                MessageBox.Show("moving");
+                console_text += "moving\n\n";
                 point = new Point();
                 point.X = moveX;
                 point.Y = moveY;
                 pictureBox1.Location = point;
             }
+            rtxt_console.Text = console_text;
         }
     }
 }
