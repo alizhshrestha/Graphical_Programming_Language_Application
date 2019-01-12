@@ -31,6 +31,8 @@ namespace Graphical_Programming_Language__Application
         int counter; // counter to loop code
         int loopCounter; //loopcounter to hold loop value in loop code
 
+        Color c;
+
         Variables v;
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -40,8 +42,15 @@ namespace Graphical_Programming_Language__Application
 
         Point point; //defines points in panel
 
+
+        /// <summary>
+        /// load button click event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
+            //opens diaglog box when button click
             if (openFileDialog1.ShowDialog()==System.Windows.Forms.DialogResult.OK)
             {
                 lbl_path.Text = openFileDialog1.FileName;
@@ -50,6 +59,12 @@ namespace Graphical_Programming_Language__Application
 
         }
 
+
+        /// <summary>
+        /// save button click event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_save_Click(object sender, EventArgs e)
         {
             if(saveFileDialog1.ShowDialog()== System.Windows.Forms.DialogResult.OK)
@@ -57,6 +72,20 @@ namespace Graphical_Programming_Language__Application
                 File.WriteAllText(saveFileDialog1.FileName, rtxt_code.Text);
 
             }
+        }
+
+        private void btn_refresh_Click(object sender, EventArgs e)
+        {
+            circleObjects.Clear();
+            rectangleObjects.Clear();
+            moveObjects.Clear();
+            variableObjects.Clear();
+            this.drawCircle = false;
+            this.drawRect = false;
+            this.movePointer = false;
+            this.rtxt_code.Clear();
+            panel1.Refresh();
+            //form1.Load;
         }
 
 
@@ -89,6 +118,19 @@ namespace Graphical_Programming_Language__Application
             variableObjects = new List<Variables>(); //creates array of new variable objects
             moveObjects = new List<MoveDirection>(); //creates array of new move objects
 
+            c = Color.DarkGreen;
+
+            txt_hint.ForeColor = Color.Blue;
+            txt_hint.ReadOnly = true;
+            txt_hint.Text = "Hints:\n \n" +
+                            "For drawing without parameter: \n draw circle 100 \n draw rectangle 100 100 \n \n" +
+                            "For drawing with parameter: \n r = 100 \n draw circle r \n h = 100 \n w = 100 \n draw rectangle h w \n \n" +
+                            "For moving cursor: \n move 100 100 \n \n" +
+                            "For choosing color: \n color = red \n \n" +
+                            "For declaring variable: \n counter = 100 \n \n" +
+                            "For looping: \n r = 100 \n loop 4 \n r + 100 \n draw circle r \n end loop \n \n " +
+                            "For if statement: \n counter = 5 \n if counter = 5 then \n draw circle 100 \n end if \n \n";
+
         }
 
         /// <summary>
@@ -101,7 +143,6 @@ namespace Graphical_Programming_Language__Application
 
             try
             {
-
                 //whole written program
                 program = rtxt_code.Text;
 
@@ -219,8 +260,6 @@ namespace Graphical_Programming_Language__Application
                         }
 
 
-                        
-
 
                         if (words[1] == "rectangle") // condition to check if "rectangle" then
                         {
@@ -275,6 +314,24 @@ namespace Graphical_Programming_Language__Application
                             moveX = Convert.ToInt32(words[1]);
                             moveY = Convert.ToInt32(words[2]);
                             movePointer = true;
+                        }
+                    }
+
+                    if (words[0]=="color")
+                    {
+                        if (words[1]=="red")
+                        {
+                            c = Color.Red;
+                        }else if (words[1]=="blue")
+                        {
+                            c = Color.Blue;
+                        }else if (words[1]=="yellow")
+                        {
+                            c = Color.Yellow;
+                        }
+                        else
+                        {
+                            c = Color.Green;
                         }
                     }
 
@@ -353,7 +410,7 @@ namespace Graphical_Programming_Language__Application
                 foreach (Circle circleObject in circleObjects)
                 {
                     MessageBox.Show("Drawing Circle");
-                    circleObject.draw(g); //draw circle with given graphics
+                    circleObject.draw(g, c); //draw circle with given graphics
                 }
             }
 
@@ -362,7 +419,7 @@ namespace Graphical_Programming_Language__Application
                 foreach (Rectangle rectangleObject in rectangleObjects)
                 {
                     MessageBox.Show("Drawing Rectangle");
-                    rectangleObject.draw(g); //draw circle with given graphics
+                    rectangleObject.draw(g, c); //draw circle with given graphics
                 }
             }
 

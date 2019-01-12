@@ -72,9 +72,9 @@ namespace Graphical_Programming_Language__Application
             return y2;
         }
 
-        public override void draw(Graphics g)
+        public override void draw(Graphics g, Color c)
         {
-            Pen p = new Pen(Color.Blue);
+            Pen p = new Pen(c);
             g.DrawLine(p, x1, y1, x2, y2);
         }
     }

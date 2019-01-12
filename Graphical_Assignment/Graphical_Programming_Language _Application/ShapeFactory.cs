@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace Graphical_Programming_Language__Application
 {
-    class ShapeFactory : AbstractFactory
+
+    /// <summary>
+    /// Factory class to get required shape
+    /// </summary>
+    public class ShapeFactory : AbstractFactory
     {
+        /// <summary>
+        /// Method to get required shape
+        /// </summary>
+        /// <param name="shapeType"></param>
+        /// <returns></returns>
         public override Shape getShape(String shapeType)
         {
             if (shapeType== null)

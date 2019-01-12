@@ -12,6 +12,7 @@ namespace Graphical_Programming_Language__Application.Tests
     public class VariableDefinationTest
     {
         [TestMethod()]
+        
         public void checkVariableCharacters_ifAlphabets_returnTrue()
         {
             //arrange

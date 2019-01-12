@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace Graphical_Programming_Language__Application
 {
+    /// <summary>
+    /// simple shape factory definition class
+    /// </summary>
     public class ShapeFactoryDefination
     {
+        /// <summary>
+        /// method to check if shape is circle
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         public bool isCircle(string shape)
         {
             if (shape=="circle")
@@ -17,6 +25,12 @@ namespace Graphical_Programming_Language__Application
             return false;
         }
 
+
+        /// <summary>
+        /// method to check if shape is rectangle
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         public bool isRectangle(string shape)
         {
             if (shape == "rectangle")

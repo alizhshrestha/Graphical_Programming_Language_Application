@@ -4,6 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
     [TestClass]
     public class FactoryDefinitionTest
     {
