@@ -52,9 +52,9 @@ namespace Graphical_Programming_Language__Application
         /// draw method
         /// </summary>
         /// <param name="g"></param>
-        public override void draw(Graphics g, Color c)
+        public override void draw(Graphics g, Color c, int thickness)
         {
-            Pen p = new Pen(c);
+            Pen p = new Pen(c, thickness);
             g.DrawEllipse(p, x,y, radius, radius);
         }
 

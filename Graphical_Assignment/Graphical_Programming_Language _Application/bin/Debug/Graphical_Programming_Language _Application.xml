@@ -24,7 +24,7 @@
             <param name="x"></param>
             <param name="y"></param>
         </member>
-        <member name="M:Graphical_Programming_Language__Application.Circle.draw(System.Drawing.Graphics,System.Drawing.Color)">
+        <member name="M:Graphical_Programming_Language__Application.Circle.draw(System.Drawing.Graphics,System.Drawing.Color,System.Int32)">
             <summary>
             draw method
             </summary>
@@ -188,7 +188,7 @@
             default constructor
             </summary>
         </member>
-        <member name="M:Graphical_Programming_Language__Application.Rectangle.draw(System.Drawing.Graphics,System.Drawing.Color)">
+        <member name="M:Graphical_Programming_Language__Application.Rectangle.draw(System.Drawing.Graphics,System.Drawing.Color,System.Int32)">
             <summary>
             draw method
             </summary>
@@ -254,7 +254,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Graphical_Programming_Language__Application.Shape.draw(System.Drawing.Graphics,System.Drawing.Color)">
+        <member name="M:Graphical_Programming_Language__Application.Shape.draw(System.Drawing.Graphics,System.Drawing.Color,System.Int32)">
             <summary>
             draw method
             </summary>

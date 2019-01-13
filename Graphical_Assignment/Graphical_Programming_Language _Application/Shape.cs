@@ -77,6 +77,6 @@ namespace Graphical_Programming_Language__Application
         /// draw method
         /// </summary>
         /// <param name="g"></param>
-        public abstract void draw(Graphics g, Color c);
+        public abstract void draw(Graphics g, Color c, int thickness);
     }
 }

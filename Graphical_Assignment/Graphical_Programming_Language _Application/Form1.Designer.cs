@@ -42,6 +42,7 @@
             this.btn_refresh = new System.Windows.Forms.Button();
             this.rtxt_console = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.lbl_pointer = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -56,6 +57,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lbl_pointer);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
@@ -154,6 +156,14 @@
             this.label2.Text = "OUTPUT:";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
+            // lbl_pointer
+            // 
+            this.lbl_pointer.AutoSize = true;
+            this.lbl_pointer.Location = new System.Drawing.Point(57, 4);
+            this.lbl_pointer.Name = "lbl_pointer";
+            this.lbl_pointer.Size = new System.Drawing.Size(0, 13);
+            this.lbl_pointer.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -173,6 +183,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -194,6 +205,7 @@
         private System.Windows.Forms.Button btn_refresh;
         private System.Windows.Forms.RichTextBox rtxt_console;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbl_pointer;
     }
 }
 
